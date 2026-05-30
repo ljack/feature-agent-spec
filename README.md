@@ -8,6 +8,19 @@ With AI systems possessing near-infinite "typing speed" and rapid code-generatio
 
 ---
 
+## The Feature-Agent-Spec Technique
+
+The **Feature-Agent-Spec** (or **Agent-Spec**) technique is the operational workflow that applies these design principles to human-AI co-development:
+
+1. **The Feature Spec**: For any new capability, a specification (e.g., `features/my_feature/README.md` or an implementation plan) is written. This document defines the inputs, outputs, UI behavior, and expectations.
+2. **Autonomous Sandboxed Implementation**: The AI agent is assigned the specification and works entirely inside the feature's directory (`features/my_feature/`). It creates the code, style sheets, and tests locally without altering shared global code.
+3. **Registration & Configuration**: The feature is integrated via the registry and controlled with feature flags in a configuration file (like `config.js`).
+4. **Zero-Impact Removal**: Deleting the feature's folder and toggling its flag off fully removes the feature with zero remnant code.
+
+This methodology prevents AI agents from creating side-effects in other parts of the system, limits the required context window size, and keeps the project's commit history organized.
+
+---
+
 ## 1. Core Architecture Principles
 
 ```mermaid
