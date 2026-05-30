@@ -4,7 +4,8 @@ window.AppConfig = {
     elevation: true,
     slideshow: true,
     gallery: true,
-    privacy: true
+    privacy: true,
+    video_export: true
   },
   autoplayPhotos: true,
   defaultSpeed: 200,
