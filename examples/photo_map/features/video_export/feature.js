@@ -5,6 +5,16 @@ class VideoExportFeature {
     this.chunks = [];
     this.isRecording = false;
     this.recordingSpeed = 200; // Optimal speed multiplier for recording
+    this.routeName = 'default_route';
+  }
+
+  onLoadData(geojsonData) {
+    const routeFeature = geojsonData.features.find(
+      f => f.geometry.type === 'LineString'
+    );
+    if (routeFeature && routeFeature.properties && routeFeature.properties.name) {
+      this.routeName = routeFeature.properties.name;
+    }
   }
 
   onInit(context) {
