@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sports Tracker GPX Photo Map Playthrough (Agentic)</title>
+  
+  <!-- CDNs for Leaflet & Web Fonts -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" />
+  
+  <!-- Base Core Styles -->
+  <link rel="stylesheet" href="styles.css" />
+  
+  <!-- Feature CSS Stylesheets (can be commented out if features are removed) -->
+  <link rel="stylesheet" href="features/playthrough/styles.css" />
+  <link rel="stylesheet" href="features/elevation/styles.css" />
+  <link rel="stylesheet" href="features/slideshow/styles.css" />
+  <link rel="stylesheet" href="features/gallery/styles.css" />
+  <link rel="stylesheet" href="features/privacy/styles.css" />
+</head>
+<body>
+
+  <!-- Map element -->
+  <div id="map"></div>
+
+  <!-- Feature DOM UI Containers -->
+  <div id="controlsContainer"></div>
+  <div id="galleryContainer"></div>
+  <div id="slideshowContainer"></div>
+  <div id="elevationContainer"></div>
+
+  <!-- Leaflet Map Library -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Extracted GeoJSON Data Assets -->
+  <script src="data/route_data.js"></script>
+
+  <!-- Core Infrastructure Modules -->
+  <script src="config.js"></script>
+  <script src="core/registry.js"></script>
+  <script src="core/state.js"></script>
+  <script src="core/map_engine.js"></script>
+  <script src="core/control_loop.js"></script>
+
+  <!-- Feature Modules -->
+  <script src="features/playthrough/feature.js"></script>
+  <script src="features/elevation/feature.js"></script>
+  <script src="features/slideshow/feature.js"></script>
+  <script src="features/gallery/feature.js"></script>
+  <script src="features/privacy/feature.js"></script>
+
+  <!-- Application Bootstrap -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (!window.RouteGeoJSON) {
+        console.error("Failed to load route GeoJSON data asset.");
+        return;
+      }
+
+      // 1. Intercept and filter GeoJSON via active features (e.g. privacy masking)
+      window.AppRegistry.triggerLoadData(window.RouteGeoJSON);
+
+      // 2. Ingest GeoJSON data assets into global state
+      window.AppState.loadGeoJSON(window.RouteGeoJSON);
+
+      // 3. Initialize Leaflet map engine with route path coordinates
+      window.MapEngine.initialize('map', window.AppState.routeCoords);
+
+      // 4. Trigger onInit lifecycle event on registered features
+      const context = {
+        state: window.AppState,
+        mapEngine: window.MapEngine,
+        dt: 0
+      };
+      window.AppRegistry.triggerInit(context);
+      
+      console.log("[Bootstrap] App launched successfully.");
+    });
+  </script>
+</body>
+</html>
