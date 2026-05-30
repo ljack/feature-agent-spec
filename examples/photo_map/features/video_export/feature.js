@@ -85,6 +85,8 @@ class VideoExportFeature {
     try {
       console.log("[Video Export] Requesting browser tab display stream...");
       this.stream = await navigator.mediaDevices.getDisplayMedia({
+        preferCurrentTab: true,
+        selfBrowserSurface: "include",
         video: { 
           displaySurface: "browser",
           width: { ideal: 1920 },
