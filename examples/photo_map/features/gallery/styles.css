@@ -1,0 +1,108 @@
+.parked-gallery-panel {
+  position: absolute;
+  top: 310px;
+  left: 16px;
+  width: 320px;
+  max-height: calc(100vh - 480px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.parked-gallery-panel::-webkit-scrollbar {
+  display: none;
+}
+
+.parked-gallery-title {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin: 0;
+}
+
+.parked-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.parked-thumb-wrapper {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  border: 2px solid var(--line);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.parked-thumb-wrapper:hover {
+  border-color: var(--sun);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(24, 49, 45, 0.2);
+}
+
+.parked-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.parked-thumb-count {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: rgba(24, 49, 45, 0.75);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+
+.parked-map-thumb-container {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--sun);
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  background: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.parked-map-thumb-container:hover {
+  transform: scale(1.15);
+  border-color: var(--forest);
+  z-index: 1000;
+}
+
+.parked-map-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.parked-map-thumb-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--clay);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
