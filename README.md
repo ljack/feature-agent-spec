@@ -6,16 +6,17 @@ read_when:
 title: "Feature-Agent-Spec"
 ---
 
-# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.4.0)
+# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.4.1)
 
-**Specification Version**: 1.4.0  
+**Specification Version**: 1.4.1  
 **Status**: Active  
-**Last Updated**: 2026-05-31
+**Last Updated**: 2026-06-01
 
 ### Version History
 
 | Version | Date | Description of Changes |
 | :--- | :--- | :--- |
+| **1.4.1** | 2026-06-01 | Added references to the compliant fas-framework core engine and fas-sudoku-app examples. |
 | **1.4.0** | 2026-05-31 | Released the Universal, Language-Agnostic FAS Project Scaffold (under /starter/) featuring project metadata manifests (FAS_MANIFEST.json) and dedicated rule prompts for AI coding agents (.agent_rules/). |
 | **1.3.0** | 2026-05-31 | Added Section 10 (Framework Integration Directory) referencing the new FRAMEWORKS.md document evaluating 50 popular web/mobile frameworks against FAS rules. |
 | **1.2.0** | 2026-05-31 | Added Section 9 (Cross-Language Implementation Guidelines) referencing the new LANGUAGES.md document detailing compatibility across 10 major programming languages. |
@@ -179,6 +180,8 @@ When working on a codebase adhering to this architecture, agents must follow the
 To see the Feature-Agent-Spec in action, refer to the following implementation:
 
 * **[GPX Photo Map Playthrough](https://github.com/ljack/feature-agent-spec-gpx-photo-map-playthrough)**: A fully compliant vanilla JavaScript and CSS web application demonstrating the core registry system, dynamic feature loading, zero-remnant removability, and configuration-driven testing.
+* **[FAS-Framework Core Engine](https://github.com/ljack/fas-framework)**: A build-time configured, compile-gated TypeScript/Express web application framework enforcing dynamic DB migrations and modular sandboxing.
+* **[FAS Sudoku Application](https://github.com/ljack/fas-sudoku-app)**: A stateless, containerized cosmic Sudoku application utilizing the FAS-Framework and a backtracking solver.
 
 ---
 
