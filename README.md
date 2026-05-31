@@ -1,4 +1,4 @@
-# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (AGENTIC_ARCH)
+# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC)
 
 This document outlines the **Feature-Agent-Spec** (or **Agent-Spec**) software design philosophy, a modern engineering paradigm tailored for co-development using **agentic AI systems** in team environments. 
 
