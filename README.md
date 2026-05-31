@@ -1,6 +1,6 @@
 # Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC)
 
-This document outlines the **Feature-Agent-Spec** (or **Agent-Spec**) software design philosophy, a modern engineering paradigm tailored for co-development using **agentic AI systems** in team environments. 
+This document outlines the **Feature-Agent-Spec** software design philosophy, a modern engineering paradigm tailored for co-development using **agentic AI systems** in team environments. 
 
 Traditional software engineering paradigms (such as DRY, high levels of abstraction, and deep class hierarchies) were optimized to overcome the limits of **human typing speed, reading speed, and manual refactoring**. In an agentic development paradigm, the bottleneck shifts from typing speed to **cognitive context size, logical reasoning, and risk of side-effects**.
 
@@ -10,7 +10,7 @@ With AI systems possessing near-infinite "typing speed" and rapid code-generatio
 
 ## The Feature-Agent-Spec Technique
 
-The **Feature-Agent-Spec** (or **Agent-Spec**) technique is the operational workflow that applies these design principles to human-AI co-development:
+The **Feature-Agent-Spec** technique is the operational workflow that applies these design principles to human-AI co-development:
 
 1. **The Feature Spec**: For any new capability, a specification (e.g., `features/my_feature/README.md` or an implementation plan) is written. This document defines the inputs, outputs, UI behavior, and expectations.
 2. **Autonomous Sandboxed Implementation**: The AI agent is assigned the specification and works entirely inside the feature's directory (`features/my_feature/`). It creates the code, style sheets, and tests locally without altering shared global code.
