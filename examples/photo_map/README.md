@@ -2,7 +2,7 @@
 
 This application is an interactive GPX playthrough map that animates ride progress along a track, renders real-time stats and an SVG elevation profile, auto-pauses at photo stops to display Ken Burns slideshows, and unlocks thumbnail icons in a visited sidebar.
 
-It is implemented following the **Agentic Architecture** design principles defined in [AGENTIC_ARCH.md](file:///Users/jarkko/_dev/sportstracker/AGENTIC_ARCH.md). The application favors strict modular isolation, runtime feature-flagging, and a swappable core control loop.
+It is implemented following the **Agentic Architecture** design principles defined in [README.md](file:///Users/jarkko/_dev/agent-spec/README.md). The application favors strict modular isolation, runtime feature-flagging, and a swappable core control loop.
 
 * **Playthrough**: Handles the animated bike marker, playback HUD (play/pause/seek), and real-time statistics updating based on progress.
 * **Elevation**: Renders an interactive SVG chart that maps route distance to elevation, allowing for coordinate seeking by clicking the profile.
@@ -15,8 +15,8 @@ It is implemented following the **Agentic Architecture** design principles defin
 ## 1. Directory Structure
 
 ```
-agentic_photo_map/
-├── index.html                   # HTML page shell and application bootstrappes
+photo_map/
+├── index.html                   # HTML page shell and application bootstrapping
 ├── config.js                    # Feature flags configuration
 ├── styles.css                   # Base stylesheet resets & UI styling tokens
 ├── data/
@@ -76,7 +76,7 @@ graph TD
 ## 3. Extending the Codebase
 
 ### 3.1 How to Disable/Enable Features
-Toggle flags inside [config.js](file:///Users/jarkko/_dev/sportstracker/agentic_photo_map/config.js):
+Toggle flags inside [config.js](file:///Users/jarkko/_dev/agent-spec/examples/photo_map/config.js):
 ```javascript
 window.AppConfig = {
   features: {
@@ -92,8 +92,8 @@ If a feature flag is set to `false`, the Registry bypasses its hooks, and its el
 ### 3.2 How to Delete a Feature
 To completely remove a feature (e.g., `elevation`) from the codebase without leaving broken remnants:
 1. Delete its folder: `features/elevation/`.
-2. Delete its stylesheet linkage and script source tags from [index.html](file:///Users/jarkko/_dev/sportstracker/agentic_photo_map/index.html).
-3. Remove its name flag from [config.js](file:///Users/jarkko/_dev/sportstracker/agentic_photo_map/config.js).
+2. Delete its stylesheet linkage and script source tags from [index.html](file:///Users/jarkko/_dev/agent-spec/examples/photo_map/index.html).
+3. Remove its name flag from [config.js](file:///Users/jarkko/_dev/agent-spec/examples/photo_map/config.js).
 
 The remaining parts of the application will continue to build, load, and function without warnings.
 
@@ -113,7 +113,7 @@ To introduce a new module (e.g., `weather_radar`):
    window.AppRegistry.register('weather_radar', new WeatherRadarFeature());
    ```
 3. Create styles in `features/weather_radar/styles.css`.
-4. Statically link the `.js` and `.css` files in [index.html](file:///Users/jarkko/_dev/sportstracker/agentic_photo_map/index.html) and add the registry toggle:
+4. Statically link the `.js` and `.css` files in [index.html](file:///Users/jarkko/_dev/agent-spec/examples/photo_map/index.html) and add the registry toggle:
    ```javascript
    // config.js
    features: {

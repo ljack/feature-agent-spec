@@ -27,6 +27,7 @@ class MapEngine {
     // Render route polyline
     const latLns = routeCoords.map(c => [c[1], c[0]]);
     this.routeLine = L.polyline(latLns, {
+      className: 'route-line-main',
       color: 'var(--water)',
       weight: 5,
       opacity: 0.9,

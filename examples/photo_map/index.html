@@ -8,6 +8,7 @@
   <!-- CDNs for Leaflet & Web Fonts -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" />
+  <link href="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.css" rel="stylesheet" />
   
   <!-- Base Core Styles -->
   <link rel="stylesheet" href="styles.css" />
@@ -19,11 +20,13 @@
   <link rel="stylesheet" href="features/gallery/styles.css" />
   <link rel="stylesheet" href="features/privacy/styles.css" />
   <link rel="stylesheet" href="features/video_export/styles.css" />
+  <link rel="stylesheet" href="features/3d_playthrough/styles.css" />
 </head>
 <body>
 
-  <!-- Map element -->
+  <!-- Map elements -->
   <div id="map"></div>
+  <div id="maplibre-container"></div>
 
   <!-- Feature DOM UI Containers -->
   <div id="controlsContainer"></div>
@@ -31,8 +34,9 @@
   <div id="slideshowContainer"></div>
   <div id="elevationContainer"></div>
 
-  <!-- Leaflet Map Library -->
+  <!-- Leaflet & MapLibre Libraries -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/maplibre-gl@4.1.2/dist/maplibre-gl.js"></script>
 
   <!-- Extracted GeoJSON Data Assets -->
   <script src="data/route_data.js"></script>
@@ -51,6 +55,7 @@
   <script src="features/gallery/feature.js"></script>
   <script src="features/privacy/feature.js"></script>
   <script src="features/video_export/feature.js"></script>
+  <script src="features/3d_playthrough/feature.js"></script>
 
   <!-- Application Bootstrap -->
   <script>

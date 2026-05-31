@@ -66,6 +66,38 @@ class AppState {
     return R * c;
   }
 
+  // Interpolates the coordinate along the route for a given progress in km
+  getInterpolatedPoint(km) {
+    if (!this.routeCoords || this.routeCoords.length === 0) {
+      return { lat: 0, lon: 0, ele: 0 };
+    }
+    const distances = this.distances;
+    const routeCoords = this.routeCoords;
+    const totalDist = this.totalDist;
+
+    if (km <= 0) return { lat: routeCoords[0][1], lon: routeCoords[0][0], ele: routeCoords[0][2] || 0 };
+    if (km >= totalDist) return { lat: routeCoords[routeCoords.length - 1][1], lon: routeCoords[routeCoords.length - 1][0], ele: routeCoords[routeCoords.length - 1][2] || 0 };
+
+    let lo = 0, hi = distances.length - 1;
+    while (lo < hi - 1) {
+      const mid = Math.floor((lo + hi) / 2);
+      if (distances[mid] <= km) {
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+
+    const pct = (km - distances[lo]) / (distances[hi] - distances[lo]);
+    const p1 = routeCoords[lo];
+    const p2 = routeCoords[hi];
+    return {
+      lat: p1[1] + pct * (p2[1] - p1[1]),
+      lon: p1[0] + pct * (p2[0] - p1[0]),
+      ele: (p1[2] || 0) + pct * ((p2[2] || 0) - (p1[2] || 0))
+    };
+  }
+
   // PubSub mechanism
   subscribe(event, callback) {
     if (!this.listeners[event]) {

@@ -5,7 +5,8 @@ window.AppConfig = {
     slideshow: true,
     gallery: true,
     privacy: true,
-    video_export: true
+    video_export: true,
+    three_d_playthrough: true
   },
   autoplayPhotos: true,
   defaultSpeed: 200,
@@ -16,5 +17,11 @@ window.AppConfig = {
     startRadiusMeters: 800,
     endRadiusMeters: 500,
     joinRoute: false
+  },
+  three_d: {
+    defaultPitch: 55, // degrees
+    chaseCam: true,    // auto-rotate to match path direction
+    autoOrbit: true    // spin at photo pauses
   }
 };
+

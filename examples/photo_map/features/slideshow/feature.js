@@ -20,8 +20,8 @@ class SlideshowFeature {
         this.hideOverlay(state);
       }
     } else {
-      // Check for photo stops to trigger pauses
-      if (!state.isPlaying || !state.autoPauseEnabled) return;
+      // Check for photo stops to trigger pauses and mark visited
+      if (!state.isPlaying) return;
 
       for (let s of state.photoClusters) {
         const distDiff = state.currentProgressKm - s.properties.km;
@@ -30,7 +30,13 @@ class SlideshowFeature {
           distDiff < 0.12 && 
           state.lastVisitedStopId !== s.properties.id
         ) {
-          this.triggerPhotoPause(state, s);
+          // Always mark stop as visited when passing
+          state.lastVisitedStopId = s.properties.id;
+          state.markStopVisited(s.properties.id);
+
+          if (state.autoPauseEnabled) {
+            this.triggerPhotoPause(state, s);
+          }
           break;
         }
       }
@@ -91,6 +97,9 @@ class SlideshowFeature {
     const p = cluster.properties;
     state.lastVisitedStopId = p.id;
     state.markStopVisited(p.id);
+
+    // Snap progress to the exact photo stop location so bike and photo markers align
+    state.setProgress(p.km, true);
 
     state.setPausedForPhoto(true);
     this.countdownRemaining = window.AppConfig.photoPauseDuration || 5.0;
