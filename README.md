@@ -150,21 +150,29 @@ When working on a codebase adhering to this architecture, agents must follow the
 
 ---
 
-## 5. Testing in the Feature-Agent-Spec Paradigm
+## 5. Real-World Examples
+
+To see the Feature-Agent-Spec in action, refer to the following implementation:
+
+* **[GPX Photo Map Playthrough](https://github.com/ljack/feature-agent-spec-gpx-photo-map-playthrough)**: A fully compliant vanilla JavaScript and CSS web application demonstrating the core registry system, dynamic feature loading, zero-remnant removability, and configuration-driven testing.
+
+---
+
+## 6. Testing in the Feature-Agent-Spec Paradigm
 
 Because features are strictly isolated, testing is divided into distinct, automated phases that verify feature-level independence, flag configurations, and zero-remnant removability.
 
-### 5.1. Sandbox Unit Testing
+### 6.1. Sandbox Unit Testing
 * **Location**: Each feature must contain its own test files within its directory (e.g., `features/my_feature/tests/`).
 * **Mocking**: Tests must mock core system drivers and interfaces. The feature should be testable without starting the global application or DB layers.
 
-### 5.2. Flag-Matrix Test Suite
+### 6.2. Flag-Matrix Test Suite
 In a system with multiple toggleable features, configurations can vary. The CI pipeline should execute tests under a matrix of configurations:
 1. **Core-Only**: All feature flags disabled. Validates that core functionalities remain intact and compile.
 2. **Solo-Feature**: Enable exactly one feature at a time. Ensures that Feature A does not implicitly depend on Feature B being active.
 3. **All-Active**: All feature flags enabled. Ensures inter-feature co-existence.
 
-### 5.3. Automated Zero-Remnant Verification
+### 6.3. Automated Zero-Remnant Verification
 To prove a feature can be cleanly deleted, the testing pipeline includes a verification script:
 1. A configuration matrix lists each feature.
 2. For each feature, the script temporarily moves the feature directory out of the codebase (e.g., to a temp folder).
@@ -174,20 +182,20 @@ To prove a feature can be cleanly deleted, the testing pipeline includes a verif
 
 ---
 
-## 6. Detecting and Preventing Rule Violations
+## 7. Detecting and Preventing Rule Violations
 
 With multiple AI agents and humans contributing to a codebase, automated checks must guard the architecture boundaries.
 
-### 6.1. Dependency Cruising (Static Analysis)
+### 7.1. Dependency Cruising (Static Analysis)
 Static analysis tools (e.g., ESLint dependency rules, `dependency-cruiser`, or custom AST parsing scripts) must be configured with rules that run on pre-commit hooks and CI:
 * **Core Isolation Rule**: Core source files (`core/*`) are forbidden from importing from `features/*`.
 * **Sandbox Rule (No Cross-Talk)**: Files in `features/feature_a/*` are forbidden from importing from `features/feature_b/*`.
 * **Registration Exception**: Only the configuration script (`config.js`) and the main registry launcher are permitted to import the feature entry points.
 
-### 6.2. Automated Removability Gate (CI)
-The "Zero-Remnant Verification" test described in Section 5.3 should run as a blocking check in the CI/CD pipeline on every Pull Request. Any PR that leaves dead imports or references in the core when its feature is deleted will be rejected.
+### 7.2. Automated Removability Gate (CI)
+The "Zero-Remnant Verification" test described in Section 6.3 should run as a blocking check in the CI/CD pipeline on every Pull Request. Any PR that leaves dead imports or references in the core when its feature is deleted will be rejected.
 
-### 6.3. Agentic Pull Request Auditing
+### 7.3. Agentic Pull Request Auditing
 An LLM-in-the-loop review step is established for co-development. Before merging a change, an independent review agent analyzes the Git diff to inspect compliance:
 * It flags if changes to core files are made to support feature logic.
 * It verifies that the configuration flag is documented and correctly integrated.
