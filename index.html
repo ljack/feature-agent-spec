@@ -212,6 +212,7 @@
           <button class="tab-btn active" onclick="switchTab(event, 'tab-dry')">DRY vs. Isolated Replication</button>
           <button class="tab-btn" onclick="switchTab(event, 'tab-micro')">Microfrontends vs. Folder Monolith</button>
           <button class="tab-btn" onclick="switchTab(event, 'tab-mono')">Spaghetti Monolith vs. Enforced Sandbox</button>
+          <button class="tab-btn" onclick="switchTab(event, 'tab-faas')">Serverless (FaaS) vs. Feature-Agent-Spec</button>
         </div>
 
         <!-- Tab 1: DRY -->
@@ -258,6 +259,22 @@
             <ul class="bullet-list" style="margin-top: 1rem;">
               <li>Guarantees 100% touchless feature removals.</li>
               <li>Limits git branch conflicts to configuration files.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab 4: FaaS -->
+        <div id="tab-faas" class="tab-panel">
+          <div class="analysis-block">
+            <h4>Serverless Functions / FaaS (Lambdas, Cloud Functions, Edge Workers)</h4>
+            <p>FaaS separates application logic at the infrastructure level into separate, stateless, event-triggered functions (e.g. AWS Lambda, Google Cloud Functions, Cloudflare Workers). FaaS guarantees isolation but introduces massive operational friction: cold starts, complex local emulators, environment variables sync, CORS, database connection pool exhaustion, and slow distributed CI testing pipelines. Multi-feature updates require updating and redeploying dozens of separate functions.</p>
+          </div>
+          <div class="analysis-block" style="border-left: 1px solid rgba(51, 65, 85, 0.3); padding-left: 2rem;">
+            <h4>Codebase-Level Folder Sandboxes</h4>
+            <p>Feature-Agent-Spec achieves decoupling and sandbox separation **inside the same runtime process** at the file-system folder level. Features hook directly into central loaders and state stores using local event buses, entirely avoiding network hops, database connection issues, cold start latencies, and API gateway complexities. Testing different combinations requires only a simple Node matrix test script that boots in milliseconds.</p>
+            <ul class="bullet-list" style="margin-top: 1rem;">
+              <li>No cold start overhead or network latency.</li>
+              <li>Runs entirely inside the same process using local event buses.</li>
             </ul>
           </div>
         </div>
