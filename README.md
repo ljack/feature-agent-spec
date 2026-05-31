@@ -55,6 +55,7 @@ A "feature" is any modular enhancement to the system—whether a plugin, extensi
 Every feature must be easily controlled through configuration.
 * **Toggleable**: A feature must be disableable or enableable via a configuration file, environment variable, or feature flag registry. Disabling a feature should dynamically prune its routes, assets, and event listeners.
 * **Removable (Zero-Remnant Deletion)**: Deleting a feature's directory and its entry in the configuration registry must be sufficient to remove it entirely. The application must still compile and pass all tests without leaving broken references or dead code path warnings.
+* **Best Practice (Dynamic Asset Loading)**: To prevent browser network warnings (404 errors) or compilation failures when a feature directory is deleted, main entry-point templates (like `index.html` or `App.tsx`) should avoid hardcoding `<script>` or `<link>` stylesheet tags for individual features. Instead, they should dynamically inject these scripts and styles at runtime based on the enabled flags in the configuration registry. This guarantees that deleting a folder is completely zero-touch and doesn't leak dead asset calls.
 
 ### 1.3. Explicit and Swappable Core Control Loops
 The core control loop represents the program's lifecycle orchestrator (e.g., event dispatch loop, server startup, main UI loop).
