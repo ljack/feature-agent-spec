@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Languages Compatibility Matrix - Feature-Agent-Spec</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css" />
+  <!-- Marked.js for client-side markdown rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body style="background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--bg-main) 70%); min-height: 100vh;">
+  
+  <header>
+    <div class="container header-container">
+      <a href="index.html" class="logo">
+        <span class="logo-dot"></span>
+        FEATURE_AGENT_SPEC
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      <div class="back-btn-container">
+        <a href="index.html" class="btn btn-outline">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 0.25rem; transform: scaleX(-1);">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg>
+          Back to Home
+        </a>
+      </div>
+
+      <div class="card">
+        <div id="content" class="markdown-content">
+          <p>Loading compatibility matrix...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Feature-Agent-Spec. Released under the MIT License.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('LANGUAGES.md')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to load file');
+          }
+          return response.text();
+        })
+        .then(markdownText => {
+          // Parse and render markdown
+          const htmlContent = marked.parse(markdownText);
+          document.getElementById('content').innerHTML = htmlContent;
+        })
+        .catch(err => {
+          document.getElementById('content').innerHTML = `
+            <h3>Failed to load documentation</h3>
+            <p>Make sure the file <code>LANGUAGES.md</code> is available on the server.</p>
+            <p>${err.message}</p>
+          `;
+        });
+    });
+  </script>
+</body>
+</html>
