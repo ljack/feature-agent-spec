@@ -1,0 +1,32 @@
+// FEATURE-AGENT-SPEC: Abstract Registry Template (Pseudo-Code)
+
+class HookRegistry {
+    // 1. Maintain a map of hook names to arrays of callbacks
+    private hooksMap: Map<string, Array<Callback>>;
+
+    constructor() {
+        this.hooksMap = new Map();
+    }
+
+    // 2. Features invoke this to register their callbacks
+    function register(hookName: string, callback: Callback) {
+        if (!this.hooksMap.has(hookName)) {
+            this.hooksMap.set(hookName, []);
+        }
+        this.hooksMap.get(hookName).push(callback);
+    }
+
+    // 3. The Core engine invokes this to execute registered feature code
+    async function trigger(hookName: string, payload: Data) {
+        if (!this.hooksMap.has(hookName)) return;
+        
+        for (const callback of this.hooksMap.get(hookName)) {
+            try {
+                await callback(payload);
+            } catch (error) {
+                log("Error executing hook: " + hookName, error);
+                // Fail-safe execution: let other callbacks run
+            }
+        }
+    }
+}

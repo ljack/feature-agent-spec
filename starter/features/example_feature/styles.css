@@ -1,0 +1,31 @@
+/* FEATURE-AGENT-SPEC: Example Feature Isolated CSS */
+
+.example-feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  transition: var(--transition-smooth);
+}
+
+.example-feature-card:hover {
+  border-color: var(--border-card-hover);
+  transform: translateY(-2px);
+}
+
+.example-feature-title {
+  color: var(--accent-cyan);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.example-feature-counter {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}

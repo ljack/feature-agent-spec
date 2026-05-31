@@ -1,0 +1,38 @@
+// FEATURE-AGENT-SPEC: Abstract Observable State Template (Pseudo-Code)
+
+class StateStore {
+    // 1. Maintain internal state data
+    private state: Dictionary;
+    
+    // 2. Maintain a list of subscriber callbacks
+    private subscribers: Set<SubscriberCallback>;
+
+    constructor() {
+        this.state = {};
+        this.subscribers = new Set();
+    }
+
+    // 3. Query local state (read-only for features)
+    function getState(key: string): Value {
+        return this.state[key];
+    }
+
+    // 4. Update state and notify subscribers
+    function setState(newState: Dictionary) {
+        this.state = merge(this.state, newState);
+        this.notify(newState);
+    }
+
+    // 5. Subscribe to state changes
+    function subscribe(callback: SubscriberCallback) {
+        this.subscribers.add(callback);
+        // Return unsubscribe function
+        return () => this.subscribers.delete(callback);
+    }
+
+    private function notify(changedData: Dictionary) {
+        for (const callback of this.subscribers) {
+            callback(this.state, changedData);
+        }
+    }
+}

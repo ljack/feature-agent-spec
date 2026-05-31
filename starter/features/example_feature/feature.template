@@ -1,0 +1,51 @@
+// FEATURE-AGENT-SPEC: Example Feature Template (Pseudo-Code)
+
+import { CoreRegistry } from '../../core/registry';
+import { StateStore } from '../../core/state';
+
+class ExampleFeature {
+    private appState: StateStore;
+    private unsubscribe: Function;
+
+    constructor(stateStore: StateStore) {
+        this.appState = stateStore;
+    }
+
+    // 1. Initial execution callback registered to Core Startup Hook
+    function onStartup() {
+        this.renderUI();
+        
+        // 2. Subscribe to decoupled state store notifications
+        this.unsubscribe = this.appState.subscribe((state, changedKeys) => {
+            if (changedKeys.includes('session:count')) {
+                this.updateUI(state['session:count']);
+            }
+        });
+    }
+
+    function renderUI() {
+        const initialCount = this.appState.getState('session:count') || 0;
+        // Mount HTML container and set initialCount
+        log("Mounting Example Feature UI Card...");
+    }
+
+    function updateUI(count: Number) {
+        // Update UI dynamic text elements
+        log("Updating UI with session count: " + count);
+    }
+
+    function onDestroy() {
+        // 3. Clean up subscriptions to prevent memory leaks
+        if (this.unsubscribe) {
+            this.unsubscribe();
+        }
+        log("Destroying Example Feature...");
+    }
+}
+
+// 4. Feature registration
+function initialize(registry: CoreRegistry, stateStore: StateStore) {
+    const instance = new ExampleFeature(stateStore);
+    registry.register('onStartup', () => instance.onStartup());
+}
+export { initialize };

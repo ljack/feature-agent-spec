@@ -1,0 +1,33 @@
+{
+  "name": "fas-project-scaffold",
+  "version": "1.0.0",
+  "description": "Standardized Feature-Agent-Spec manifest defining boundaries and active features.",
+  "rules": {
+    "circular_imports_allowed": false,
+    "cross_feature_talk_allowed": false,
+    "core_to_feature_static_imports_allowed": false
+  },
+  "config": {
+    "active_feature_flags_file": "./config.json",
+    "matrix_test_modes": [
+      "core-only",
+      "solo-feature",
+      "all-active"
+    ]
+  },
+  "lifecycle_hooks": [
+    "onInit",
+    "onStartup",
+    "onFrameUpdate",
+    "onShutdown"
+  ],
+  "features": {
+    "example_feature": {
+      "enabled": true,
+      "path": "./features/example_feature/",
+      "exposed_hooks": [
+        "onStartup"
+      ]
+    }
+  }
+}

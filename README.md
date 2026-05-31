@@ -6,9 +6,9 @@ read_when:
 title: "Feature-Agent-Spec"
 ---
 
-# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.3.0)
+# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.4.0)
 
-**Specification Version**: 1.3.0  
+**Specification Version**: 1.4.0  
 **Status**: Active  
 **Last Updated**: 2026-05-31
 
@@ -16,6 +16,7 @@ title: "Feature-Agent-Spec"
 
 | Version | Date | Description of Changes |
 | :--- | :--- | :--- |
+| **1.4.0** | 2026-05-31 | Released the Universal, Language-Agnostic FAS Project Scaffold (under /starter/) featuring project metadata manifests (FAS_MANIFEST.json) and dedicated rule prompts for AI coding agents (.agent_rules/). |
 | **1.3.0** | 2026-05-31 | Added Section 10 (Framework Integration Directory) referencing the new FRAMEWORKS.md document evaluating 50 popular web/mobile frameworks against FAS rules. |
 | **1.2.0** | 2026-05-31 | Added Section 9 (Cross-Language Implementation Guidelines) referencing the new LANGUAGES.md document detailing compatibility across 10 major programming languages. |
 | **1.1.0** | 2026-05-31 | Expanded Section 8 with a detailed Code Redundancy analysis, introducing the Multi-Tier Utility Pipeline, AST-based duplicate detection, and the Bridge Adapter pattern for stateful services. |
