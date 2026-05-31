@@ -28,6 +28,7 @@
         <li><a href="#diagrams">Architecture</a></li>
         <li><a href="#analysis">Analysis</a></li>
         <li><a href="#tradeoffs">Trade-offs</a></li>
+        <li><a href="#languages">Languages</a></li>
         <li><a href="https://github.com/ljack/feature-agent-spec-gpx-photo-map-playthrough" target="_blank" rel="noopener noreferrer">Sandbox App</a></li>
       </ul>
     </div>
@@ -385,6 +386,203 @@
     </div>
   </section>
 
+  <!-- Cross-Language Compatibility Section -->
+  <section id="languages" style="background: rgba(11, 15, 25, 0.5);">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <span class="badge badge-indigo">Compatibility Matrix</span>
+        <h2>Cross-Language Alignment</h2>
+        <p style="max-width: 600px; margin: 0.5rem auto 0;">FAS principles are language-agnostic. Ponder how the 10 most popular programming languages support isolation, flagging, and event decoupling.</p>
+      </div>
+
+      <div class="languages-grid">
+        <!-- 1. JS/TS -->
+        <div class="lang-card">
+          <div class="lang-card-header">
+            <span class="lang-name">JavaScript / TypeScript</span>
+            <span class="lang-score high">9.5</span>
+          </div>
+          <div class="lang-mechanic">Runtime Loader + ESLint Paths</div>
+          <ul class="lang-bullets">
+            <li class="pro">Excellent dynamic imports (<code>import()</code>) for zero touch removal.</li>
+            <li class="pro">Strict path restrictions via <code>eslint-plugin-import</code>.</li>
+            <li class="con">Dynamic compilation delays runtime type checking.</li>
+          </ul>
+          <button class="lang-code-toggle" onclick="toggleCodeDrawer(this, 'drawer-js')">View Implementation Code</button>
+          <div id="drawer-js" class="lang-code-drawer">
+            <pre><code>// Dynamic loading feature loader
+if (config.features.weather) {
+  const { weatherFeature } = await import('./features/weather.js');
+  registry.register(weatherFeature);
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- 2. Rust -->
+        <div class="lang-card">
+          <div class="lang-card-header">
+            <span class="lang-name">Rust</span>
+            <span class="lang-score high">9.0</span>
+          </div>
+          <div class="lang-mechanic">Cargo Features + cfg attribute</div>
+          <ul class="lang-bullets">
+            <li class="pro">Industry-leading compile-time gating (<code>#[cfg(feature = "x")]</code>).</li>
+            <li class="pro">Zero remnants left in compilation binary if flagged off.</li>
+            <li class="con">Dynamic runtime load is difficult (requires unsafe dynamic libraries).</li>
+          </ul>
+          <button class="lang-code-toggle" onclick="toggleCodeDrawer(this, 'drawer-rust')">View Implementation Code</button>
+          <div id="drawer-rust" class="lang-code-drawer">
+            <pre><code>// Gated compilation at block level
+#[cfg(feature = "weather")]
+{
+    registry.register(Box::new(weather::WeatherFeature::new()));
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- 3. Go -->
+        <div class="lang-card">
+          <div class="lang-card-header">
+            <span class="lang-name">Go (Golang)</span>
+            <span class="lang-score high">8.5</span>
+          </div>
+          <div class="lang-mechanic">Circular Dependency Prevention</div>
+          <ul class="lang-bullets">
+            <li class="pro">Circular import prevention enforces unidirectional loops.</li>
+            <li class="pro">Simple package scopes and init-driven dynamic registries.</li>
+            <li class="con">Compile-time linking lacks runtime plugin flexibilities.</li>
+          </ul>
+          <button class="lang-code-toggle" onclick="toggleCodeDrawer(this, 'drawer-go')">View Implementation Code</button>
+          <div id="drawer-go" class="lang-code-drawer">
+            <pre><code>// Self-registration in Go package init
+package weather
+import "project/core"
+func init() {
+    core.Register(WeatherFeature{})
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- 4. Python -->
+        <div class="lang-card">
+          <div class="lang-card-header">
+            <span class="lang-name">Python</span>
+            <span class="lang-score high">8.0</span>
+          </div>
+          <div class="lang-mechanic">Dynamic importlib modules</div>
+          <ul class="lang-bullets">
+            <li class="pro">Extremely clean runtime module imports via <code>importlib</code>.</li>
+            <li class="pro">Decorator bindings (<code>@register</code>) reduce registration boilerplate.</li>
+            <li class="con">Lacks private packages; requires static linters to prevent bleed.</li>
+          </ul>
+          <button class="lang-code-toggle" onclick="toggleCodeDrawer(this, 'drawer-python')">View Implementation Code</button>
+          <div id="drawer-python" class="lang-code-drawer">
+            <pre><code># Dynamic import of python package
+import importlib
+for f in enabled_features:
+    module = importlib.import_module(f"features.{f}")
+    module.register(registry)</code></pre>
+          </div>
+        </div>
+
+        <!-- 5. C# -->
+        <div class="lang-card">
+          <div class="lang-card-header">
+            <span class="lang-name">C#</span>
+            <span class="lang-score high">8.0</span>
+          </div>
+          <div class="lang-mechanic">AssemblyLoadContext</div>
+          <ul class="lang-bullets">
+            <li class="pro">Strong assembly encapsulation (<code>internal</code> scopes).</li>
+            <li class="pro">Unloadable runtime plugins via assemblies loader.</li>
+            <li class="con">Heavy boilerplate overhead for interface bindings.</li>
+          </ul>
+          <button class="lang-code-toggle" onclick="toggleCodeDrawer(this, 'drawer-csharp')">View Implementation Code</button>
+          <div id="drawer-csharp" class="lang-code-drawer">
+            <pre><code>// Loading plugin dynamically from DLL
+var assembly = AssemblyLoadContext.Default
+    .LoadFromAssemblyPath("weather.dll");
+var feature = Activator.CreateInstance(type);</code></pre>
+          </div>
+        </div>
+
+        <!-- 6. Swift -->
+        <div class="lang-card">
+          <div class="lang-card-header">
+            <span class="lang-name">Swift</span>
+            <span class="lang-score high">8.0</span>
+          </div>
+          <div class="lang-mechanic">Swift Package Manager (SPM) Targets</div>
+          <ul class="lang-bullets">
+            <li class="pro">Explicit SPM module dependencies block unauthorized imports.</li>
+            <li class="pro">Conditional compilation flags (<code>#if FEATURE</code>) strip code.</li>
+            <li class="con">Dynamic runtime load is restricted on sandbox OS (iOS/macOS).</li>
+          </ul>
+        </div>
+
+        <!-- 7. Kotlin -->
+        <div class="lang-card">
+          <div class="lang-card-header">
+            <span class="lang-name">Kotlin</span>
+            <span class="lang-score high">8.0</span>
+          </div>
+          <div class="lang-mechanic">Gradle Submodules + internal keyword</div>
+          <ul class="lang-bullets">
+            <li class="pro">Gradle module boundaries prevent invalid compile dependencies.</li>
+            <li class="pro"><code>internal</code> scoping hides class details within features.</li>
+            <li class="con">Heavy compilation footprint for multiplatform setups.</li>
+          </ul>
+        </div>
+
+        <!-- 8. Java -->
+        <div class="lang-card">
+          <div class="lang-card-header">
+            <span class="lang-name">Java</span>
+            <span class="lang-score moderate">7.5</span>
+          </div>
+          <div class="lang-mechanic">Jigsaw Module Exports</div>
+          <ul class="lang-bullets">
+            <li class="pro">Explicit exports via <code>module-info.java</code> enforce sandboxing.</li>
+            <li class="pro">Maturity of dependency injection (Spring/Guice) simplifies hooks.</li>
+            <li class="con">Dynamic class loading requires complex classloader architectures.</li>
+          </ul>
+        </div>
+
+        <!-- 9. PHP -->
+        <div class="lang-card">
+          <div class="lang-card-header">
+            <span class="lang-name">PHP</span>
+            <span class="lang-score moderate">7.5</span>
+          </div>
+          <div class="lang-mechanic">PSR-4 Namespace Autoloading</div>
+          <ul class="lang-bullets">
+            <li class="pro">Highly dynamic file includes allow direct runtime toggling.</li>
+            <li class="pro">Plentiful hook paradigms (actions/filters) in major CMS/frameworks.</li>
+            <li class="con">Weak typing and default loose scopes easily leak spaghetti imports.</li>
+          </ul>
+        </div>
+
+        <!-- 10. C++ -->
+        <div class="lang-card">
+          <div class="lang-card-header">
+            <span class="lang-name">C++</span>
+            <span class="lang-score low">4.0</span>
+          </div>
+          <div class="lang-mechanic">Pre-processor Macro Exclusions</div>
+          <ul class="lang-bullets">
+            <li class="con">Header file propagation introduces heavy compile-time coupling.</li>
+            <li class="con">Removing a directory requires updating CMake and header linkages.</li>
+            <li class="pro">Can build shared objects (<code>.so</code>/<code>.dll</code>) and load via <code>dlopen()</code>.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem;">
+        <p style="font-size: 1rem; color: var(--text-muted);">For an in-depth analysis and standard template designs in these languages, check our full <a href="LANGUAGES.md" target="_blank" style="color: var(--accent-cyan);">Cross-Language Compatibility matrix documentation</a>.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Bottom CTA and Sandbox App reference -->
   <section style="background: linear-gradient(180deg, var(--bg-main) 0%, #060913 100%); text-align: center;">
     <div class="container">
@@ -467,6 +665,19 @@
       // Activate selected tab
       event.currentTarget.classList.add('active');
       document.getElementById(tabId).classList.add('active');
+    }
+
+    function toggleCodeDrawer(btn, drawerId) {
+      const drawer = document.getElementById(drawerId);
+      const isActive = drawer.classList.contains('active');
+      
+      if (isActive) {
+        drawer.classList.remove('active');
+        btn.innerText = 'View Implementation Code';
+      } else {
+        drawer.classList.add('active');
+        btn.innerText = 'Hide Implementation Code';
+      }
     }
   </script>
 </body>

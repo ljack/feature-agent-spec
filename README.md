@@ -6,9 +6,9 @@ read_when:
 title: "Feature-Agent-Spec"
 ---
 
-# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.1.0)
+# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.2.0)
 
-**Specification Version**: 1.1.0  
+**Specification Version**: 1.2.0  
 **Status**: Active  
 **Last Updated**: 2026-05-31
 
@@ -16,6 +16,7 @@ title: "Feature-Agent-Spec"
 
 | Version | Date | Description of Changes |
 | :--- | :--- | :--- |
+| **1.2.0** | 2026-05-31 | Added Section 9 (Cross-Language Implementation Guidelines) referencing the new LANGUAGES.md document detailing compatibility across 10 major programming languages. |
 | **1.1.0** | 2026-05-31 | Expanded Section 8 with a detailed Code Redundancy analysis, introducing the Multi-Tier Utility Pipeline, AST-based duplicate detection, and the Bridge Adapter pattern for stateful services. |
 | **1.0.0** | 2026-05-31 | Initial complete release. Added dynamic asset loading guidelines (Section 1.2), Matrix Testing (Section 6), and referenced the compliant GPX Photo Map Playthrough example (Section 5). |
 
@@ -303,3 +304,22 @@ To prevent developers and AI agents from bypassing modular boundaries under time
   ]
   ```
 * **CI Remnants Gate**: Execute a test verification script (such as `verify_remnants.js`) on every PR. The script temporarily deletes each feature folder one by one, sets its flag to `false`, and runs the test suite. If compilation fails, the PR is rejected.
+
+---
+
+## 9. Cross-Language Implementation Guidelines
+
+Feature-Agent-Spec rules are language-agnostic, but their execution depends on native package structure, compilation options, and scoping mechanisms. 
+
+For a detailed architectural assessment, implementation strategies, and concrete code templates for the 10 most popular programming languages, refer to the companion document:
+
+* **[Cross-Language Compatibility Matrix](file:///Users/jarkko/_dev/agent-spec/LANGUAGES.md)**: An extensive analysis of how JavaScript/TypeScript, Rust, Go, Python, C#, Java, C++, Swift, Kotlin, and PHP align with the FAS principles.
+
+### Summary Compatibility Rankings
+
+1. **JavaScript / TypeScript (9.5/10)**: Best-in-class support for runtime-dynamic loading and path-restricted linting.
+2. **Rust (9.0/10)**: Exceptional compile-time feature gating (`#[cfg(feature = "...")]`) that completely strips unused code from compilation binaries.
+3. **Go (8.5/10)**: Strict prevention of circular dependencies naturally enforces unidirectional flow.
+4. **Swift / Kotlin / C# / Python (8.0/10)**: Highly modular with excellent support for assembly loading, packaging (SPM/Gradle), or import reflection.
+5. **Java / PHP (7.5/10)**: Capable of isolation, but requires heavy classloader structures or custom static analysis imports checking.
+6. **C++ (4.0/10)**: Highly challenging due to compile-time header inclusion propagation and complex linkage coupling.

@@ -485,6 +485,154 @@ footer a:hover {
   }
 }
 
+/* Cross-Language Compatibility Grid */
+.languages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.lang-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: var(--transition-smooth);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.lang-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-card-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(6, 182, 212, 0.08);
+}
+
+.lang-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.lang-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--text-primary);
+}
+
+.lang-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.95rem;
+  background: rgba(6, 182, 212, 0.1);
+  color: var(--accent-cyan);
+  border: 2px solid var(--accent-cyan);
+}
+
+.lang-score.high {
+  background: rgba(16, 182, 129, 0.1);
+  color: var(--accent-emerald);
+  border-color: var(--accent-emerald);
+}
+
+.lang-score.moderate {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border-color: #f59e0b;
+}
+
+.lang-score.low {
+  background: rgba(244, 63, 94, 0.1);
+  color: var(--accent-rose);
+  border-color: var(--accent-rose);
+}
+
+.lang-mechanic {
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.lang-bullets {
+  list-style: none;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.lang-bullets li {
+  position: relative;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.lang-bullets li.pro::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent-emerald);
+  font-weight: bold;
+}
+
+.lang-bullets li.con::before {
+  content: "✕";
+  position: absolute;
+  left: 0;
+  color: var(--accent-rose);
+  font-weight: bold;
+}
+
+.lang-code-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: var(--transition-smooth);
+}
+
+.lang-code-toggle:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.lang-code-drawer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 1rem;
+}
+
+.lang-code-drawer.active {
+  max-height: 500px;
+}
+
+.lang-code-drawer pre {
+  margin-top: 0;
+  padding: 1rem;
+  font-size: 0.8rem;
+}
+
 /* Responsive Scaling Styles */
 @media (max-width: 992px) {
   h1 { font-size: 2.75rem; }
