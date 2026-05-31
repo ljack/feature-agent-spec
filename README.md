@@ -1,6 +1,6 @@
-# Agentic Architecture & Design Philosophy (AGENTIC_ARCH)
+# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (AGENTIC_ARCH)
 
-This document outlines a modern software design philosophy tailored for development using **agentic AI systems**. 
+This document outlines the **Feature-Agent-Spec** (or **Agent-Spec**) software design philosophy, a modern engineering paradigm tailored for co-development using **agentic AI systems** in team environments. 
 
 Traditional software engineering paradigms (such as DRY, high levels of abstraction, and deep class hierarchies) were optimized to overcome the limits of **human typing speed, reading speed, and manual refactoring**. In an agentic development paradigm, the bottleneck shifts from typing speed to **cognitive context size, logical reasoning, and risk of side-effects**.
 
