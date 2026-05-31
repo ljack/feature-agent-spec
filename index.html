@@ -29,6 +29,7 @@
         <li><a href="#analysis">Analysis</a></li>
         <li><a href="#tradeoffs">Trade-offs</a></li>
         <li><a href="#languages">Languages</a></li>
+        <li><a href="#frameworks">Frameworks</a></li>
         <li><a href="https://github.com/ljack/feature-agent-spec-gpx-photo-map-playthrough" target="_blank" rel="noopener noreferrer">Sandbox App</a></li>
       </ul>
     </div>
@@ -583,6 +584,53 @@ var feature = Activator.CreateInstance(type);</code></pre>
     </div>
   </section>
 
+  <!-- Frameworks Integration Section -->
+  <section id="frameworks" style="background: rgba(11, 15, 25, 0.2); border-top: 1px solid rgba(51, 65, 85, 0.2);">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <span class="badge badge-emerald">Frameworks Explorer</span>
+        <h2>Framework Integration Directory</h2>
+        <p style="max-width: 600px; margin: 0.5rem auto 0;">Select a language and a web/mobile framework to explore its alignment score, boundary mechanics, and compliant integration patterns.</p>
+      </div>
+
+      <!-- Selector Row -->
+      <div class="selector-row">
+        <div class="selector-group">
+          <label for="lang-select">Select Language</label>
+          <select id="lang-select" class="custom-select" onchange="onLanguageChange()">
+            <option value="js">JavaScript / TypeScript</option>
+            <option value="rust">Rust</option>
+            <option value="go">Go (Golang)</option>
+            <option value="python">Python</option>
+            <option value="csharp">C#</option>
+            <option value="swift">Swift</option>
+            <option value="kotlin">Kotlin</option>
+            <option value="java">Java</option>
+            <option value="php">PHP</option>
+            <option value="cpp">C++</option>
+          </select>
+        </div>
+        <div class="selector-group">
+          <label for="fw-select">Select Framework</label>
+          <select id="fw-select" class="custom-select" onchange="onFrameworkChange()">
+            <!-- Options dynamically populated by JavaScript -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Display Card -->
+      <div class="explorer-display">
+        <div id="framework-card" class="fw-card">
+          <!-- Populated dynamically by JavaScript -->
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem;">
+        <p style="font-size: 1rem; color: var(--text-muted);">For the complete 50-framework evaluation matrix, check the full <a href="FRAMEWORKS.md" target="_blank" style="color: var(--accent-cyan);">Cross-Language Framework Directory documentation</a>.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Bottom CTA and Sandbox App reference -->
   <section style="background: linear-gradient(180deg, var(--bg-main) 0%, #060913 100%); text-align: center;">
     <div class="container">
@@ -679,6 +727,184 @@ var feature = Activator.CreateInstance(type);</code></pre>
         btn.innerText = 'Hide Implementation Code';
       }
     }
+
+    // 50 Frameworks Database Grouped by Language
+    const frameworks = {
+      js: [
+        { id: "nextjs", name: "Next.js", score: "9.0", class: "high", type: "Full-Stack Web", mechanic: "App Router Folders", pros: ["Folder route grouping acts as natural boundary.", "Simple runtime flagging via dynamic imports."], cons: ["Statically compiled imports can crash build if folders are deleted."], code: "// dynamic import in layout\nimport dynamic from 'next/dynamic';\nconst Widget = dynamic(() => import('./features/weather'));" },
+        { id: "angular", name: "Angular", score: "9.0", class: "high", type: "Frontend Web", mechanic: "NgModule Lazy Loading", pros: ["Modules provide strict, encapsulated scoping.", "Unidirectional DI registry prevents coupling."], cons: ["Heavy boilerplate for dynamic routing setup."], code: "// load children lazily in routes\nconst routes = [\n  { path: 'weather', loadChildren: () => import('./features/weather') }\n];" },
+        { id: "react", name: "React", score: "8.5", class: "high", type: "Frontend UI Library", mechanic: "React.lazy Imports", pros: ["Component directories isolate assets and styles.", "Highly pluggable view components."], cons: ["Requires external routing/state tools to enforce registry flows."], code: "// React.lazy import\nconst Weather = React.lazy(() => import('./features/weather'));" },
+        { id: "vue", name: "Vue.js", score: "8.5", class: "high", type: "Frontend Web", mechanic: "Async Components", pros: ["SFC files containerize HTML, CSS, and logic.", "Dynamic routes are easy to flag."], cons: ["Lacks strict structure; easy to bypass folders without linting."], code: "// async component render\nconst Weather = defineAsyncComponent(() => import('./weather.vue'));" },
+        { id: "rn", name: "React Native", score: "8.0", class: "high", type: "Mobile UI", mechanic: "Native Modules Bridge", pros: ["Encapsulated native view UI wrappers.", "Strong component separation."], cons: ["Metro bundler limits dynamic runtime imports; compile-time gating preferred."], code: "// Metro compiler-driven dynamic import fallback\n#if FEATURE_WEATHER\nimport Weather from './features/weather';\n#endif" }
+      ],
+      rust: [
+        { id: "axum", name: "Axum", score: "8.5", class: "high", type: "Web API", mechanic: "Router Merging", pros: ["Nested sub-routing isolates features.", "Allows configuration-driven router construction."], cons: ["Compile-time routing check prevents runtime plugins."], code: "// Router merging in Axum\nlet mut app = Router::new();\nif config.weather {\n    app = app.nest(\"/weather\", weather::router());\n}" },
+        { id: "actix", name: "Actix-web", score: "8.5", class: "high", type: "Web API", mechanic: "Service Configuration", pros: ["Configure closure decouples route mappings.", "Independent resource boundaries."], cons: ["Compile-time static types limit generic routes."], code: "// Service config registration\nApp::new().configure(|cfg| {\n    if config.weather { weather::init(cfg); }\n});" },
+        { id: "tauri", name: "Tauri", score: "8.0", class: "high", type: "Desktop/Mobile Hybrid", mechanic: "Feature-Gated IPC Commands", pros: ["Isolated IPC command invocation.", "Allows stripping features for compile targets."], cons: ["Requires sync configuration in tauri.conf.json."], code: "// Tauri command registration\ntauri::Builder::default()\n    .invoke_handler(tauri::generate_handler![weather_cmd]);" },
+        { id: "yew", name: "Yew", score: "8.0", class: "high", type: "WASM Frontend", mechanic: "Component Scopes", pros: ["Clean component isolation.", "Message loops enforce unidirectional flows."], cons: ["WASM builds are slow; requires Rust toolchain for small tweaks."], code: "// Declarative functional component\n#[function_component(Weather)]\npub fn weather() -> Html { html! { <div>{\"Sunny\"}</div> } }" },
+        { id: "leptos", name: "Leptos", score: "8.0", class: "high", type: "WASM Frontend/SSR", mechanic: "Asynchronous Island SSR", pros: ["Fine-grained signal scoping limits updates.", "Decoupled sub-route components."], cons: ["Hydration mismatches if dynamic flags are out of sync."], code: "// Reactive island rendering\n#[component]\npub fn Weather() -> impl IntoView { view! { <p>\"Sunny\"</p> } }" }
+      ],
+      go: [
+        { id: "gin", name: "Gin-gonic", score: "8.0", class: "high", type: "Web API", mechanic: "Router Groups", pros: ["Clean grouping of API endpoints.", "Middleware maps directly to route groups."], cons: ["Global engine variables introduce coupling risks."], code: "// Gin route grouping\ngroup := r.Group(\"/weather\")\nif config.Features.Weather {\n    weather.RegisterRoutes(group)\n}" },
+        { id: "fiber", name: "Fiber", score: "8.0", class: "high", type: "Web API", mechanic: "Sub-App Mounting", pros: ["Express-like simplicity for features.", "Strict middleware sandboxing per group."], cons: ["Fast HTTP engine allocations bypass some GC safety."], code: "// Fiber sub-app mounting\napp := fiber.New()\nif config.Weather {\n    app.Mount(\"/weather\", weather.NewApp())\n}" },
+        { id: "echo", name: "Echo", score: "8.0", class: "high", type: "Web API", mechanic: "Handler Registration", pros: ["Interface-based endpoint registries.", "Clean request context decoupling."], cons: ["Lacks folder-private compilation restrictions."], code: "// Echo group registration\ng := e.Group(\"/weather\")\ng.GET(\"/\", weather.GetHandler)" },
+        { id: "beego", name: "Beego", score: "7.5", class: "moderate", type: "Web MVC", mechanic: "Auto-Routing", pros: ["Standard MVC structures help organize directories.", "Extensive toolchain support."], cons: ["Global auto-routing logic violates unidirectional coupling rules."], code: "// Route controller mapping\nbeego.Router(\"/weather\", &controllers.WeatherController{})" },
+        { id: "buffalo", name: "Buffalo", score: "7.5", class: "moderate", type: "Web MVC", mechanic: "Monolithic Pipeline", pros: ["Provides standard CLI feature setups.", "Native resource bundling."], cons: ["Highly coupled app pipeline; zero-remnant deletion is manual."], code: "// Routing inside App middleware\napp.GET(\"/weather\", WeatherHandler)" }
+      ],
+      python: [
+        { id: "django", name: "Django", score: "8.5", class: "high", type: "Web MVC", mechanic: "Isolated Apps", pros: ["Apps enforce strict directory boundaries.", "Decoupled settings.INSTALLED_APPS config."], cons: ["Global migration tables create database schema coupling."], code: "# INSTALLED_APPS in settings.py\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'features.weather',\n]" },
+        { id: "fastapi", name: "FastAPI", score: "8.0", class: "high", type: "Web API", mechanic: "APIRouter Mounting", pros: ["Decoupled routing files using APIRouter.", "Config-driven router loop loading."], cons: ["Pydantic validation schemas can leak cross-feature imports."], code: "# APIRouter inclusion\nfrom fastapi import FastAPI\napp = FastAPI()\napp.include_router(weather_router, prefix=\"/weather\")" },
+        { id: "flask", name: "Flask", score: "8.0", class: "high", type: "Web API/MVC", mechanic: "Blueprint Modules", pros: ["Blueprints isolate views, templates, and assets.", "Simple configuration-driven register."], cons: ["Global context variables (g, session) invite hidden coupling."], code: "# Blueprint mounting\nfrom flask import Flask\napp = Flask(__name__)\napp.register_blueprint(weather_blueprint, url_prefix='/weather')" },
+        { id: "pyside", name: "PySide / PyQt", score: "7.5", class: "moderate", type: "Desktop UI", mechanic: "Signals & Slots", pros: ["Loose coupling via QT signals event emitter.", "High widget component isolation."], cons: ["C++ binding lifecycle mapping is prone to memory leaks."], code: "# Qt signal registration\nweather_widget.data_received.connect(main_dashboard.update)" },
+        { id: "kivy", name: "Kivy", score: "7.0", class: "moderate", type: "Mobile UI", mechanic: "Dynamic Layout Bindings", pros: ["Cross-platform mobile UI styling.", "Declarative kv design files."], cons: ["UI styling and Python logic bindings are highly coupled."], code: "# Kivy screen manager load\nscreen_manager.add_widget(WeatherScreen(name='weather'))" }
+      ],
+      csharp: [
+        { id: "aspnet", name: "ASP.NET Core", score: "8.0", class: "high", type: "Web API/MVC", mechanic: "Razor Class Libraries (RCL)", pros: ["RCL packages contain isolated logic/UI assets.", "Dynamic Assembly loading via reflection."], cons: ["Auto-discovered controllers easily cause path collisions."], code: "// RCL Dynamic controller mapping\nservices.AddMvc().AddApplicationPart(typeof(WeatherController).Assembly);" },
+        { id: "blazor", name: "Blazor", score: "8.0", class: "high", type: "Web Frontend UI", mechanic: "Razor Component Directories", pros: ["Component-level scoping of HTML and logic.", "Dynamic routes are easy to register."], cons: ["WebAssembly boot bundle grows heavy with multiple features."], code: "// Razor composability\n@if (config.WeatherActive) {\n    <WeatherWidget />\n}" },
+        { id: "maui", name: "MAUI", score: "7.5", class: "moderate", type: "Mobile UI", mechanic: "Service Container Registry", pros: ["Cross-platform desktop and mobile UI.", "Native platform sub-folders."], cons: ["Startup builder pattern requires global dependency configurations."], code: "// Maui service registration\nmauiAppBuilder.Services.AddSingleton<IWeather, WeatherService>();" },
+        { id: "unity", name: "Unity UI", score: "6.5", class: "moderate", type: "Simulation/Game UI", mechanic: "Script Components", pros: ["Component-based architecture attaches code to UI objects.", "Highly modular GameObjects."], cons: ["Scene dependencies are highly coupled; prone to missing asset reference warnings."], code: "// Unity GameObject activation\nweatherPanel.SetActive(config.IsWeatherEnabled);" },
+        { id: "uno", name: "Uno Platform", score: "7.5", class: "moderate", type: "Cross-platform UI", mechanic: "XAML Sub-modules", pros: ["Share C# and XAML across mobile and web.", "Strict namespace scoping."], cons: ["XAML compilation overhead makes debugging slow."], code: "// Conditional XAML layout render\n<ContentControl ContentTemplate=\"{StaticResource WeatherTemplate}\" />" }
+      ],
+      swift: [
+        { id: "swiftui", name: "SwiftUI", score: "8.5", class: "high", type: "iOS/macOS UI", mechanic: "Declarative View Builders", pros: ["Views are extremely lightweight and decoupled.", "State bindings enforce unidirectional flow."], cons: ["Swift compilation flags require rebuilding target modules."], code: "// Dynamic View registration\nstruct ContentView: View {\n    var body: some View {\n        if config.showWeather { WeatherView() }\n    }\n}" },
+        { id: "spm", name: "SPM Targets", score: "8.5", class: "high", type: "Core Packaging", mechanic: "Package Module Targets", pros: ["SPM compiler enforces target sandbox rules.", "Prevents accidental cross-imports."], cons: ["Dynamic package additions require manual plist updating."], code: "// Swift Package Manager targets mapping\n.target(name: \"WeatherFeature\", dependencies: [\"Core\"])," },
+        { id: "vapor", name: "Vapor", score: "8.0", class: "high", type: "Web API", mechanic: "Route Collections", pros: ["Features package routes inside RouteCollections.", "Clean controller separation."], cons: ["Compile-time routing limits database dynamic switches."], code: "// Route collection registration\ntry app.register(collection: WeatherController())" },
+        { id: "hummingbird", name: "Hummingbird", score: "8.0", class: "high", type: "Web API", mechanic: "Middleware Closures", pros: ["Lightweight, asynchronous event loop router.", "Highly decoupled middleware blocks."], cons: ["Smaller ecosystem compared to Vapor; manual code required."], code: "// Hummingbird routing group\nlet group = app.router.group(\"weather\")\ngroup.get(\"/\", use: self.getHandler)" },
+        { id: "uikit", name: "UIKit", score: "7.5", class: "moderate", type: "iOS UI", mechanic: "View Controllers", pros: ["Explicit code-based UI layouts are easy to isolate.", "Robust navigation controllers."], cons: ["XML Storyboards are highly coupled and invite merge conflicts."], code: "// Navigation VC push\nself.navigationController?.pushViewController(WeatherVC(), animated: true)" }
+      ],
+      kotlin: [
+        { id: "compose", name: "Jetpack Compose", score: "8.5", class: "high", type: "Android UI", mechanic: "Composable Views", pros: ["Declarative views simplify dynamic injection.", "High layout sandboxing within files."], cons: ["Requires strict runtime state management to prevent recomposition loops."], code: "// Composable view injection\n@Composable\nfun MainScreen() {\n    if (config.weatherEnabled) WeatherView()\n}" },
+        { id: "kmp", name: "Compose Multiplatform", score: "8.0", class: "high", type: "Cross-platform UI", mechanic: "Platform Sub-folders", pros: ["Share layout code across Android, iOS, and desktop.", "Strong package encapsulation."], cons: ["Build toolchain requires specific platform SDK configurations."], code: "// Multiplatform Compose entry\n@Composable\nfun App() { MaterialTheme { WeatherScreen() } }" },
+        { id: "ktor", name: "Ktor", score: "8.0", class: "high", type: "Web API", mechanic: "Routing Extension Functions", pros: ["Configure routing modularly via Kotlin extensions.", "Lightweight asynchronous coroutines engine."], cons: ["Requires manual configuration for advanced middleware setups."], code: "// Ktor routing extension\nfun Route.weatherRouting() {\n    get(\"/weather\") { call.respondText(\"Sunny\") }\n}" },
+        { id: "spring", name: "Spring Boot Kotlin", score: "8.0", class: "high", type: "Web API/MVC", mechanic: "Gated Bean Profiles", pros: ["Supports Spring annotations with clean Kotlin syntax.", "Decoupled Bean profiles."], cons: ["JVM compilation adds classloading boot lag."], code: "// Conditional Kotlin controller\n@RestController\n@ConditionalOnProperty(\"features.weather.enabled\")\nclass WeatherController" },
+        { id: "android", name: "Android SDK", score: "7.5", class: "moderate", type: "Mobile API", mechanic: "Dynamic Feature Modules", pros: ["Features can be downloaded dynamically at runtime.", "Strict package separation."], cons: ["Static AndroidManifest.xml declarations can leak references."], code: "// Dynamic Feature delivery load\nval manager = SplitInstallManagerFactory.create(context)\nmanager.startInstall(request)" }
+      ],
+      java: [
+        { id: "spring", name: "Spring Boot", score: "8.0", class: "high", type: "Web API/MVC", mechanic: "Conditional Property Gating", pros: ["Strong profile conditional configuration engine.", "Bean auto-discovery simplifies registry hooks."], cons: ["Heavy memory footprints; runtime startup delay."], code: "// Spring conditional bean gating\n@Component\n@ConditionalOnProperty(value = \"features.weather.enabled\", havingValue = \"true\")\npublic class WeatherFeature" },
+        { id: "quarkus", name: "Quarkus", score: "8.0", class: "high", type: "Web API/MVC", mechanic: "Build-Time Compilation Profiles", pros: ["Build-time DI container minimizes footprint.", "Exceptional support for native GraalVM compile."], cons: ["Build-time evaluation limits runtime plugin dynamic toggling."], code: "// Quarkus profile gating\n@IfBuildProfile(\"weather-active\")\npublic class WeatherService" },
+        { id: "micronaut", name: "Micronaut", score: "8.0", class: "high", type: "Web API", mechanic: "Static DI Beans", pros: ["Compile-time DI checks prevent runtime reflection.", "Clean profile-matching rules."], cons: ["Compilation times grow heavy with extensive features."], code: "// Micronaut requires bean check\n@Requires(property = \"features.weather.enabled\", value = \"true\")\npublic class WeatherController" },
+        { id: "play", name: "Play Framework", score: "7.0", class: "moderate", type: "Web MVC", mechanic: "Configured Routing Pipelines", pros: ["Built-in Akka HTTP async streams model.", "Clean, MVC folder organization."], cons: ["The global conf/routes file compiles statically, forcing compile edits."], code: "# Static play routing line\nGET   /weather    controllers.WeatherController.index" },
+        { id: "android", name: "Android SDK (Java)", score: "7.5", class: "moderate", type: "Mobile API", mechanic: "Dynamic Feature Modules", pros: ["Supports Play Feature Delivery splits.", "Clean Gradle module isolation."], cons: ["Heavy XML layout dependencies and static Manifest imports."], code: "// Install split module dynamically\nsplitInstallManager.startInstall(request);" }
+      ],
+      php: [
+        { id: "laravel", name: "Laravel", score: "8.5", class: "high", type: "Web MVC", mechanic: "Service Provider Packages", pros: ["Service Providers boot isolated dependencies.", "Config-driven package load arrays."], cons: ["Global Eloquent models easily cause database coupling."], code: "// Dynamic service provider load in AppServiceProvider\nif (config('features.weather')) {\n    $this->app->register(WeatherServiceProvider::class);\n}" },
+        { id: "symfony", name: "Symfony", score: "8.0", class: "high", type: "Web MVC", mechanic: "Bundle Scoping", pros: ["Symfony Bundles contain isolated models, views, and routing.", "Explicit configuration declarations."], cons: ["Heavy XML/YAML config files add maintenance friction."], code: "// Bundle activation in bundles.php\nreturn [\n    App\\Features\\Weather\\WeatherBundle::class => ['all' => true],\n];" },
+        { id: "wp", name: "WordPress", score: "7.5", class: "moderate", type: "CMS / Framework", mechanic: "Plugin Hook Framework", pros: ["WP Action/Filter hooks provide ultimate decoupling.", "Folder-isolated plugins under wp-content."], cons: ["Lacks namespaces by default; high risk of naming collisions."], code: "// WordPress plugin action hook\nadd_action('wp_enqueue_scripts', 'weather_assets');" },
+        { id: "yii", name: "Yii", score: "7.0", class: "moderate", type: "Web MVC", mechanic: "MVC Module Folders", pros: ["Modules provide self-contained MVC blocks.", "Clean sub-routing namespaces."], cons: ["Highly coupled Active Record queries invite dependencies bleed."], code: "// Yii module mount config\n$config['modules']['weather'] = ['class' => 'app\\features\\weather\\Module'];" },
+        { id: "ci", name: "CodeIgniter", score: "6.5", class: "moderate", type: "Web MVC", mechanic: "Loose Controller Classes", pros: ["Lightweight footprint; boots instantly.", "Simple directory layouts."], cons: ["Lacks robust dependency packaging; routing is highly coupled."], code: "// CodeIgniter route controller\n$routes->get('weather', 'Features\\Weather\\Controllers\\Weather::index');" }
+      ],
+      cpp: [
+        { id: "qt", name: "Qt", score: "5.5", class: "moderate", type: "Desktop/Mobile UI", mechanic: "QPluginLoader & Dynamic QML", pros: ["QPluginLoader loads compiled DLL/SO plugins at runtime.", "Dynamic QML load by URL bypasses compile coupling."], cons: ["C++ memory mapping requires manual garbage collection handling."], code: "// Qt QPluginLoader runtime load\nQPluginLoader loader(\"weatherplugin.dll\");\nQObject *plugin = loader.instance();" },
+        { id: "drogon", name: "Drogon", score: "5.0", class: "moderate", type: "Web API", mechanic: "Dynamic Controller Mapping", pros: ["High-performance asynchronous epoll engine.", "Dynamic runtime routing registration."], cons: ["Highly coupled header dependency graphs."], code: "// Drogon controller mapping\ndrogon::app().registerHttpSimpleControllerHandler(\"/weather\", ...);" },
+        { id: "crow", name: "Crow", score: "4.5", class: "low", type: "Web API", mechanic: "Static Route Mapping", pros: ["Very fast, header-only micro-framework.", "Simple routing macros."], cons: ["Static routing declarations compile directly to launcher, preventing deletion."], code: "// Crow static route definition\nCROW_ROUTE(app, \"/weather\")([](){ return \"Sunny\"; });" },
+        { id: "juce", name: "JUCE", score: "4.5", class: "low", type: "Desktop UI/Audio", mechanic: "Statically Linked Modules", pros: ["Cross-platform audio and GUI pipeline.", "Clean C++ module directory layouts."], cons: ["Modules compile statically, forcing direct header couplings."], code: "// JUCE component inclusion\n#include <juce_gui_basics/juce_gui_basics.h>" },
+        { id: "wt", name: "Wt", score: "4.5", class: "low", type: "Web GUI", mechanic: "Widget Hierarchy Linking", pros: ["Mimics desktop Qt layout rules for web browser UI.", "Native event listeners mapping."], cons: ["Widget hierarchy definitions compile directly to application core."], code: "// Wt widget add mapping\nauto container = root()->addNew<WContainerWidget>();" }
+      ]
+    };
+
+    function onLanguageChange() {
+      const langSelect = document.getElementById('lang-select');
+      const fwSelect = document.getElementById('fw-select');
+      const langId = langSelect.value;
+      
+      // Clear previous options
+      fwSelect.innerHTML = '';
+      
+      // Populate new options
+      if (frameworks[langId]) {
+        frameworks[langId].forEach(fw => {
+          const option = document.createElement('option');
+          option.value = fw.id;
+          option.innerText = fw.name;
+          fwSelect.appendChild(option);
+        });
+      }
+      
+      // Trigger framework card render
+      onFrameworkChange();
+    }
+
+    function onFrameworkChange() {
+      const langSelect = document.getElementById('lang-select');
+      const fwSelect = document.getElementById('fw-select');
+      const langId = langSelect.value;
+      const fwId = fwSelect.value;
+      
+      const card = document.getElementById('framework-card');
+      
+      if (!frameworks[langId]) return;
+      const fw = frameworks[langId].find(f => f.id === fwId);
+      if (!fw) return;
+      
+      // Render Card HTML
+      let prosHtml = fw.pros.map(p => `<li class="pro">${p}</li>`).join('');
+      let consHtml = fw.cons.map(c => `<li class="con">${c}</li>`).join('');
+      
+      let codeHtml = '';
+      if (fw.code) {
+        codeHtml = `
+          <div class="fw-card-footer">
+            <button class="lang-code-toggle" onclick="toggleCodeDrawer(this, 'fw-code-drawer')">View Implementation Code</button>
+            <div id="fw-code-drawer" class="lang-code-drawer">
+              <pre><code>${escapeHtml(fw.code)}</code></pre>
+            </div>
+          </div>
+        `;
+      }
+      
+      card.innerHTML = `
+        <div class="fw-card-header">
+          <div class="fw-title-group">
+            <h3>${fw.name}</h3>
+            <span class="fw-lang-badge">${fw.type} &bull; ${langSelect.options[langSelect.selectedIndex].text}</span>
+          </div>
+          <div class="fw-score-circle" style="border-color: ${getScoreColor(fw.score)}; color: ${getScoreColor(fw.score)}">
+            <span>${fw.score}</span>
+            <label>Score</label>
+          </div>
+        </div>
+        <div class="lang-mechanic" style="margin-bottom: 2rem;">
+          <strong>Boundary Mechanic:</strong> <code>${fw.mechanic}</code>
+        </div>
+        <div class="fw-content-grid">
+          <div>
+            <div class="fw-metric-title">Advantages</div>
+            <ul class="lang-bullets">${prosHtml}</ul>
+          </div>
+          <div>
+            <div class="fw-metric-title">Drawbacks / Nuances</div>
+            <ul class="lang-bullets">${consHtml}</ul>
+          </div>
+        </div>
+        ${codeHtml}
+      `;
+      
+      // Trigger animation
+      card.style.animation = 'none';
+      card.offsetHeight; // trigger reflow
+      card.style.animation = null;
+    }
+
+    function getScoreColor(score) {
+      const val = parseFloat(score);
+      if (val >= 8.0) return 'var(--accent-emerald)';
+      if (val >= 7.0) return '#f59e0b';
+      return 'var(--accent-rose)';
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Initialize Frameworks Explorer
+    document.addEventListener('DOMContentLoaded', () => {
+      onLanguageChange();
+    });
   </script>
 </body>
 </html>

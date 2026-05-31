@@ -6,9 +6,9 @@ read_when:
 title: "Feature-Agent-Spec"
 ---
 
-# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.2.0)
+# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.3.0)
 
-**Specification Version**: 1.2.0  
+**Specification Version**: 1.3.0  
 **Status**: Active  
 **Last Updated**: 2026-05-31
 
@@ -16,6 +16,7 @@ title: "Feature-Agent-Spec"
 
 | Version | Date | Description of Changes |
 | :--- | :--- | :--- |
+| **1.3.0** | 2026-05-31 | Added Section 10 (Framework Integration Directory) referencing the new FRAMEWORKS.md document evaluating 50 popular web/mobile frameworks against FAS rules. |
 | **1.2.0** | 2026-05-31 | Added Section 9 (Cross-Language Implementation Guidelines) referencing the new LANGUAGES.md document detailing compatibility across 10 major programming languages. |
 | **1.1.0** | 2026-05-31 | Expanded Section 8 with a detailed Code Redundancy analysis, introducing the Multi-Tier Utility Pipeline, AST-based duplicate detection, and the Bridge Adapter pattern for stateful services. |
 | **1.0.0** | 2026-05-31 | Initial complete release. Added dynamic asset loading guidelines (Section 1.2), Matrix Testing (Section 6), and referenced the compliant GPX Photo Map Playthrough example (Section 5). |
@@ -323,3 +324,13 @@ For a detailed architectural assessment, implementation strategies, and concrete
 4. **Swift / Kotlin / C# / Python (8.0/10)**: Highly modular with excellent support for assembly loading, packaging (SPM/Gradle), or import reflection.
 5. **Java / PHP (7.5/10)**: Capable of isolation, but requires heavy classloader structures or custom static analysis imports checking.
 6. **C++ (4.0/10)**: Highly challenging due to compile-time header inclusion propagation and complex linkage coupling.
+
+---
+
+## 10. Framework Integration Directory
+
+FAS principles can be implemented in web, mobile, and backend frameworks. While some frameworks natively align with feature isolation, others require custom registration loops.
+
+For a detailed analysis of 50 major frameworks (5 for each of the 10 languages), including compatibility ratings, boundary mechanics, and registration code templates, refer to:
+
+* **[Cross-Language Framework Directory](file:///Users/jarkko/_dev/agent-spec/FRAMEWORKS.md)**: A complete compliance matrix for 50 frameworks, including Next.js, Django, Spring Boot, Laravel, SwiftUI, and others.
