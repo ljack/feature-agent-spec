@@ -1,3 +1,11 @@
+---
+summary: "Software design philosophy and technique for human-AI co-development emphasizing feature isolation, dynamic configuration-driven loading, and zero-remnant modularity."
+read_when:
+  - You are designing systems to be developed or maintained using agentic AI tools.
+  - You need to structure features, loaders, and test matrices to prevent AI code side-effects.
+title: "Feature-Agent-Spec"
+---
+
 # Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.0.0)
 
 **Specification Version**: 1.0.0  
