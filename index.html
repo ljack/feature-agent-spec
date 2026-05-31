@@ -223,10 +223,11 @@
           </div>
           <div class="analysis-block" style="border-left: 1px solid rgba(51, 65, 85, 0.3); padding-left: 2rem;">
             <h4>Isolated Replication (Feature-Agent-Spec)</h4>
-            <p>Feature-Agent-Spec favors localized duplication over coupled reuse. If a feature needs a simple coordinate distance helper or date formatter, it implements it locally within its own sandbox folder, even if a similar helper exists in another feature. Since AI writes the code in milliseconds, the "typing cost" of duplicate functions is zero. **Because there are no shared helpers between features, the AI can rewrite or delete the feature cleanly with zero risk of breaking other modules.**</p>
+            <p>Feature-Agent-Spec favors localized duplication over coupled reuse. If a feature needs a simple helper, it implements it locally inside its sandbox. To manage this redundancy, we use a <strong>Multi-Tier Utility Pipeline</strong>: small helpers start locally (Tier 1), group-shared utilities live inside local sub-domains (Tier 2), and only highly stable, stateless helpers are promoted to the core standard library (Tier 3) after proving broad usage. This ensures 100% decoupling with controlled duplication.</p>
             <ul class="bullet-list" style="margin-top: 1rem;">
               <li>Safeguards other modules from regression risks.</li>
               <li>Saves AI context window space (no need to parse multi-level imports).</li>
+              <li>Utilizes AST-based copy-paste tools (like <code>jscpd</code>) to alert when duplication gets too large.</li>
             </ul>
           </div>
         </div>
@@ -305,9 +306,24 @@
         <div class="cons-list">
           <h3>Disadvantages</h3>
           <ul>
-            <li><strong>Code Redundancy</strong>: Denying cross-feature reuse can lead to duplicate small helper functions (like date parsers or calculations) across folders.</li>
-            <li><strong>Strict Boilerplate Discipline</strong>: Developers must commit to registering callbacks and hooks rather than making quick, direct function calls.</li>
-            <li><strong>Setup Static Rule Enforcement</strong>: Requires configuring tools (like `verify_remnants.js` or ESLint dependency rules) to guard boundaries against accidental imports.</li>
+            <li>
+              <strong>Code Redundancy</strong>: Denying cross-feature reuse can lead to duplicate helper functions (date parsers, calculations) across folders.
+              <div style="font-size: 0.85rem; color: var(--accent-cyan); margin-top: 0.25rem; font-weight: 500;">
+                Mitigation: Multi-Tier Utility Pipeline (Local Sandbox -> Group Shared -> Core Stateless Library), AST-based copy-paste detector alerts in CI (like <code>jscpd</code>), and Bridge Adapter pattern for stateful dependencies.
+              </div>
+            </li>
+            <li>
+              <strong>Strict Boilerplate Discipline</strong>: Developers must commit to registering callbacks and hooks rather than making quick, direct function calls.
+              <div style="font-size: 0.85rem; color: var(--accent-cyan); margin-top: 0.25rem; font-weight: 500;">
+                Mitigation: Automated scaffolding CLI generators (e.g. <code>generate-feature</code>) and generic standard PubSub event bus fallbacks.
+              </div>
+            </li>
+            <li>
+              <strong>Setup Static Rule Enforcement</strong>: Requires configuring tools to guard boundaries against accidental imports.
+              <div style="font-size: 0.85rem; color: var(--accent-cyan); margin-top: 0.25rem; font-weight: 500;">
+                Mitigation: ESLint <code>import/no-restricted-paths</code> rule enforcement and automated remnants-verification scripts (e.g. <code>verify_remnants.js</code>) blocking PR validation.
+              </div>
+            </li>
           </ul>
         </div>
       </div>

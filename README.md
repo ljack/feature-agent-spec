@@ -6,9 +6,9 @@ read_when:
 title: "Feature-Agent-Spec"
 ---
 
-# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.0.0)
+# Feature-Agent-Spec: Agentic Architecture & Design Philosophy (FEATURE_AGENT_SPEC-1.1.0)
 
-**Specification Version**: 1.0.0  
+**Specification Version**: 1.1.0  
 **Status**: Active  
 **Last Updated**: 2026-05-31
 
@@ -16,6 +16,7 @@ title: "Feature-Agent-Spec"
 
 | Version | Date | Description of Changes |
 | :--- | :--- | :--- |
+| **1.1.0** | 2026-05-31 | Expanded Section 8 with a detailed Code Redundancy analysis, introducing the Multi-Tier Utility Pipeline, AST-based duplicate detection, and the Bridge Adapter pattern for stateful services. |
 | **1.0.0** | 2026-05-31 | Initial complete release. Added dynamic asset loading guidelines (Section 1.2), Matrix Testing (Section 6), and referenced the compliant GPX Photo Map Playthrough example (Section 5). |
 
 ---
@@ -220,3 +221,85 @@ An LLM-in-the-loop review step is established for co-development. Before merging
 * It flags if changes to core files are made to support feature logic.
 * It verifies that the configuration flag is documented and correctly integrated.
 * It reports architectural warnings directly in the review comments.
+
+---
+
+## 8. Architectural Trade-offs & Mitigation Strategies
+
+Implementing the Feature-Agent-Spec design philosophy introduces specific engineering tradeoffs. Understanding these disadvantages and applying the correct mitigations ensures the codebase remains maintainable (*ylläpidettävä*) without compromising modular boundaries.
+
+### 8.1. Mitigating Code Redundancy (Isolated Replication vs. DRY)
+Because features live in strict sandboxes, sharing helper functions directly is forbidden. This leads to **Code Redundancy** (duplicating simple math calculators, time formatters, or DOM query helpers across folders). 
+
+#### The Tension: The DRY Trap vs. Context Window Limits
+In traditional software development, DRY (Don't Repeat Yourself) is favored to reduce human typing. However, in an agentic development paradigm, DRY introduces hidden compilation and behavior coupling that AI cannot safely trace. When an AI agent modifies a shared utility to satisfy Feature A, it frequently introduces regressions in Feature B. 
+
+However, unchecked redundancy leads to:
+* **Quality Drift**: Subtle bugs in duplicated helper logic (e.g. leap-year bugs in date parsers).
+* **Maintenance Lag**: High difficulty in patching security or performance vulnerabilities.
+* **Bundle Bloat**: Bundlers cannot collapse duplicates if they have minor signature variations.
+
+To work with this issue, apply the following systematic mitigations:
+
+#### Mitigation A: The Multi-Tier Utility Promotion Pipeline
+Rather than treating utility sharing as a binary choice (Sandbox vs. Global Core), utilities should follow a defined promotion pipeline:
+
+1. **Tier 1: Feature-Local Sandbox (Default)**: Helpers begin locally within `features/my_feature/utils/`. Rate of change is high, and scope is narrow.
+2. **Tier 2: Feature-Group Utilities (Coarse-Grained DRY)**: Group related features into sub-namespaces (e.g., `features/maps/elevation/` and `features/maps/gpx_playback/`). Establish a sub-shared utility folder inside the sub-namespace (e.g. `features/maps/_shared/`). Features in this group can import from this shared folder, but features in other domains cannot. This limits coupling while preventing redundant math/algorithm files.
+3. **Tier 3: Core Standard Library (Global DRY)**: Promoted to `core/utils/` only if they meet the strict rubric:
+   * **Strictly Stateless**: Pure functions (inputs to outputs, zero side-effects).
+   * **Stable Interface**: Standard algorithms unlikely to change.
+   * **3+ Rule**: Used by 3 or more independent features.
+
+```
+project/
+├── core/
+│   ├── utils/
+│   │   ├── math_helpers.js       <-- Tier 3: Stateless, stable, used globally (Shared)
+│   │   └── time_helpers.js
+│   └── state.js
+└── features/
+    ├── maps/
+    │   ├── _shared/
+    │   │   └── map_math.js       <-- Tier 2: Shared ONLY within map feature group
+    │   ├── elevation/
+    │   └── playback/
+    └── analytics/
+        └── feature.js            <-- Tier 1: Local helpers inside analytics/utils/
+```
+
+#### Mitigation B: Automated Copy-Paste Audits (CI)
+Integrate AST-based copy-paste detection tools (e.g., `jscpd` or `jsinspect`) into pre-commit hooks or the CI/CD pipeline:
+* **Warning-Only Trigger**: Set a duplicate line-count threshold (e.g. 20 lines). If `jscpd` finds identical structures in separate feature folders, trigger a warning flag in the PR audit: *"Duplicate block detected between feature A and feature B. Consider promoting to Tier 2/3 if it is stateless, or justify duplication in comments."*
+
+#### Mitigation C: Bridge Adapter Pattern for Stateful Services
+Stateful infrastructure (WebSockets, API client configurations, DB pools) must *never* be duplicated. Instead, the core defines the connection lifecycle, and features register their listeners/channels via a Subscription Bridge exposed by the Core:
+```javascript
+// Feature registers to the Core's socket manager without instantiating a client
+Core.socket.subscribe('weather_channel', (data) => this.handleData(data));
+```
+
+---
+
+### 8.2. Mitigating Boilerplate Overhead
+Writing registry events and lifecycle hooks requires more lines of code than direct function calls.
+* **Scaffolding Code Generators**: Provide a developer CLI script (e.g., `npm run generate-feature`) that automatically scaffolds the feature folder, the default `feature.js` with lifecycle hook registrations, the feature configuration flag, and the test suite structure.
+* **Generic Event Bus**: For simple features, standardise on a single generic event channel (e.g. `AppRegistry.on('event-name', callback)`) rather than defining distinct lifecycle interfaces for every new capability.
+
+---
+
+### 8.3. Mitigating Static Rule Enforcement
+To prevent developers and AI agents from bypassing modular boundaries under time pressure:
+* **ESLint Restricted Paths**: Configure path rules to block invalid imports (e.g. `core` importing from `features`, or `features/A` importing from `features/B`).
+  ```json
+  "import/no-restricted-paths": [
+    "error",
+    {
+      "zones": [
+        { "target": "./core", "from": "./features" },
+        { "target": "./features/feature_a", "from": "./features/feature_b" }
+      ]
+    }
+  ]
+  ```
+* **CI Remnants Gate**: Execute a test verification script (such as `verify_remnants.js`) on every PR. The script temporarily deletes each feature folder one by one, sets its flag to `false`, and runs the test suite. If compilation fails, the PR is rejected.
