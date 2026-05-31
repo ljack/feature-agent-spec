@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Feature-Agent-Spec: Agentic Software Architecture</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  
+  <!-- Base Stylesheet -->
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header>
+    <div class="container header-container">
+      <a href="#" class="logo">
+        <span class="logo-dot"></span>
+        FEATURE_AGENT_SPEC
+      </a>
+      <ul class="nav-links">
+        <li><a href="#philosophy">Story</a></li>
+        <li><a href="#principles">Core Logic</a></li>
+        <li><a href="#diagrams">Architecture</a></li>
+        <li><a href="#analysis">Analysis</a></li>
+        <li><a href="#tradeoffs">Trade-offs</a></li>
+        <li><a href="https://github.com/ljack/feature-agent-spec-gpx-photo-map-playthrough" target="_blank" rel="noopener noreferrer">Sandbox App</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <span class="badge badge-cyan">Spec v1.0.0</span>
+      <h1>Feature-Agent-Spec</h1>
+      <p class="hero-subtitle">A modern software engineering philosophy tailored for human-AI co-development and zero-regression maintainability.</p>
+      <div class="hero-actions">
+        <a href="#philosophy" class="btn btn-primary">Read the Story</a>
+        <a href="https://github.com/ljack/feature-agent-spec-gpx-photo-map-playthrough" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 0.25rem;">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          View Example Repo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Narrative Story Section -->
+  <section id="philosophy">
+    <div class="container" style="max-width: 800px;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <span class="badge badge-indigo">The Narrative Shift</span>
+        <h2>From Human Keystrokes to Context Windows</h2>
+      </div>
+      <p>For decades, software development rules were written for a single user: **the human developer**. Humans are slow typists, slow readers, and prone to losing concentration. Because of this, software architecture evolved paradigms to prioritize developer efficiency above almost all else: <strong>DRY</strong> (Don't Repeat Yourself), deep utility abstractions, and complex class inheritance.</p>
+      
+      <p>But when you pair program with an AI coding agent, the bottlenecks change. AI agents possess near-infinite typing speeds, compile instantly, and write files in milliseconds. However, their limitations are cognitive: **context window size limits, logical reasoning bugs, and the risk of generating side-effects**.</p>
+      
+      <div class="card" style="margin: 2.5rem 0; border-left: 4px solid var(--accent-cyan);">
+        <h4 style="font-size: 1.2rem; margin-bottom: 0.75rem; color: var(--accent-cyan);">The Coding Agent's "Bleeding Edge" Problem</h4>
+        <p style="font-size: 1rem; margin-bottom: 0; color: var(--text-secondary);">When an AI agent modifies a shared global utility file or database scheme, it often creates regressions in distant, unrelated sections of the codebase. Because the agent cannot comprehend the entire codebase at once inside its active context window, it makes localized changes that break global logic. This is the **bleeding edge**—where code changes in one module bleed out to break another.</p>
+      </div>
+
+      <p>The **Feature-Agent-Spec** design philosophy flips this dynamic. Instead of building deep, interconnected codebases, it structures applications around **complete isolation, strict configuration-driven loaders, and zero cross-talk**. By building strict boundaries, AI agents work safely in isolated directories, eliminating the risk of side-effects and keeping the context window small, fast, and completely focused.</p>
+    </div>
+  </section>
+
+  <!-- Core Architecture Principles -->
+  <section id="principles">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <span class="badge badge-emerald">Operational Rules</span>
+        <h2>Core Architectural Rules</h2>
+      </div>
+      
+      <div class="feature-grid">
+        <!-- Principle 1 -->
+        <div class="card">
+          <div class="feature-header">
+            <div class="feature-icon">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
+                <path d="M4 6h8V5H4v1zm0 3h8V8H4v1zm0 3h8v-1H4v1z"/>
+              </svg>
+            </div>
+            <h3>1. strict Feature Isolation</h3>
+          </div>
+          <p>Every feature lives entirely inside its own self-contained directory (e.g. `features/weather/`). All assets, business logic, styles, and unit tests live there. The core application knows absolutely nothing about individual features.</p>
+        </div>
+
+        <!-- Principle 2 -->
+        <div class="card">
+          <div class="feature-header">
+            <div class="feature-icon" style="color: var(--accent-indigo); background: rgba(99, 102, 241, 0.1);">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M11.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5zM4.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5z"/>
+              </svg>
+            </div>
+            <h3>2. Dynamic Asset Injection</h3>
+          </div>
+          <p>Features must be strictly toggleable. Instead of hardcoding scripts in `index.html`, the system dynamically injects scripts and stylesheets at runtime based on active configuration flags, ensuring zero-touch feature removals.</p>
+        </div>
+
+        <!-- Principle 3 -->
+        <div class="card">
+          <div class="feature-header">
+            <div class="feature-icon" style="color: var(--accent-purple); background: rgba(168, 85, 247, 0.1);">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z"/>
+                <path d="M5 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5z"/>
+                <path d="M0 9a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V9z"/>
+              </svg>
+            </div>
+            <h3>3. Unidirectional PubSub Flow</h3>
+          </div>
+          <p>Core engines coordinates actions via lifecycle hooks (`onInit`, `onTick`, `onSeek`). Features interact solely by registering callbacks on these hooks and subscribing to global observable state stores, guaranteeing zero cross-feature talk.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive SVG Diagrams -->
+  <section id="diagrams">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <span class="badge badge-indigo">Architecture Flow</span>
+        <h2>Unidirectional Architecture Diagram</h2>
+        <p style="max-width: 600px; margin: 0.5rem auto 0;">Notice how the Core Orchestrator drives execution and state, but never links directly to features. The Registry serves as the isolated decoupling layer.</p>
+      </div>
+
+      <div class="diagram-container">
+        <!-- SVG Vector Diagram -->
+        <svg class="diagram-svg" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+          <!-- Definitions for markers and filters -->
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+            </marker>
+            <marker id="arrow-glow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#06b6d4"/>
+            </marker>
+          </defs>
+
+          <!-- Core Block -->
+          <rect x="50" y="130" width="180" height="140" rx="12" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+          <text x="140" y="170" fill="#f8fafc" font-family="Outfit" font-weight="bold" font-size="16" text-anchor="middle">Core Orchestrator</text>
+          <text x="140" y="200" fill="#94a3b8" font-family="Inter" font-size="12" text-anchor="middle">control_loop.js</text>
+          <text x="140" y="225" fill="#94a3b8" font-family="Inter" font-size="12" text-anchor="middle">map_engine.js</text>
+
+          <!-- Flow: Core -> Registry -->
+          <line x1="230" y1="200" x2="310" y2="200" stroke="#06b6d4" stroke-width="3" marker-end="url(#arrow-glow)"/>
+          <text x="270" y="185" fill="#06b6d4" font-family="Inter" font-size="11" font-weight="bold" text-anchor="middle">Ticks Frame</text>
+
+          <!-- Registry Block -->
+          <rect x="320" y="130" width="180" height="140" rx="12" fill="#1e293b" stroke="#06b6d4" stroke-width="2"/>
+          <text x="410" y="170" fill="#f8fafc" font-family="Outfit" font-weight="bold" font-size="16" text-anchor="middle">Hook Registry</text>
+          <text x="410" y="200" fill="#94a3b8" font-family="Inter" font-size="12" text-anchor="middle">registry.js</text>
+          <text x="410" y="225" fill="#06b6d4" font-family="Inter" font-size="12" text-anchor="middle">config.js (checks flags)</text>
+
+          <!-- Flows: Registry -> Features -->
+          <path d="M 500 170 Q 570 110 630 110" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+          <path d="M 500 200 L 630 200" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+          <path d="M 500 230 Q 570 290 630 290" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)"/>
+
+          <!-- Feature Sandboxes -->
+          <!-- Feature A -->
+          <rect x="640" y="70" width="130" height="60" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+          <text x="705" y="105" fill="#10b981" font-family="Outfit" font-weight="bold" font-size="13" text-anchor="middle">feature_a/ (Init)</text>
+
+          <!-- Feature B -->
+          <rect x="640" y="170" width="130" height="60" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+          <text x="705" y="205" fill="#10b981" font-family="Outfit" font-weight="bold" font-size="13" text-anchor="middle">feature_b/ (Tick)</text>
+
+          <!-- Feature C -->
+          <rect x="640" y="260" width="130" height="60" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+          <text x="705" y="295" fill="#10b981" font-family="Outfit" font-weight="bold" font-size="13" text-anchor="middle">feature_c/ (Seek)</text>
+
+          <!-- State Store Overlay -->
+          <rect x="330" y="20" width="160" height="50" rx="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="2"/>
+          <text x="410" y="50" fill="#f8fafc" font-family="Outfit" font-weight="bold" font-size="14" text-anchor="middle">State Store (state.js)</text>
+
+          <!-- Dotted Lines: Features <-> State -->
+          <path d="M 705 60 Q 580 45 500 45" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,4"/>
+          <path d="M 705 330 Q 580 345 200 280" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,4" />
+          <line x1="410" y1="70" x2="410" y2="120" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,4"/>
+          
+          <text x="560" y="25" fill="#6366f1" font-family="Inter" font-size="11" text-anchor="middle">PubSub State Changes</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Deep Architecture Analysis Section -->
+  <section id="analysis">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <span class="badge badge-cyan">Comparative Analysis</span>
+        <h2>How it Compares to Other Patterns</h2>
+        <p style="max-width: 600px; margin: 0.5rem auto 0;">A detailed evaluation of architectural layouts across agentic and human software paradigms.</p>
+      </div>
+
+      <div class="tab-container">
+        <!-- Navigation Tabs -->
+        <div class="tab-nav">
+          <button class="tab-btn active" onclick="switchTab(event, 'tab-dry')">DRY vs. Isolated Replication</button>
+          <button class="tab-btn" onclick="switchTab(event, 'tab-micro')">Microfrontends vs. Folder Monolith</button>
+          <button class="tab-btn" onclick="switchTab(event, 'tab-mono')">Spaghetti Monolith vs. Enforced Sandbox</button>
+        </div>
+
+        <!-- Tab 1: DRY -->
+        <div id="tab-dry" class="tab-panel active">
+          <div class="analysis-block">
+            <h4>Traditional DRY (Don't Repeat Yourself)</h4>
+            <p>DRY is the human gold standard. It condenses redundant code into single, reusable utility methods. However, in an AI environment, DRY is highly risky. Because a coding agent's context window is limited, it cannot fully trace the dependency graph. When requested to edit a shared utility helper to satisfy a requirement for Feature A, the AI will confidently rewrite it, inadvertently breaking Feature B and Feature C that relied on the helper's original signature. <strong>DRY creates hidden compilation and behavior coupling that AI cannot safely refactor.</strong></p>
+          </div>
+          <div class="analysis-block" style="border-left: 1px solid rgba(51, 65, 85, 0.3); padding-left: 2rem;">
+            <h4>Isolated Replication (Feature-Agent-Spec)</h4>
+            <p>Feature-Agent-Spec favors localized duplication over coupled reuse. If a feature needs a simple coordinate distance helper or date formatter, it implements it locally within its own sandbox folder, even if a similar helper exists in another feature. Since AI writes the code in milliseconds, the "typing cost" of duplicate functions is zero. **Because there are no shared helpers between features, the AI can rewrite or delete the feature cleanly with zero risk of breaking other modules.**</p>
+            <ul class="bullet-list" style="margin-top: 1rem;">
+              <li>Safeguards other modules from regression risks.</li>
+              <li>Saves AI context window space (no need to parse multi-level imports).</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab 2: Microfrontends -->
+        <div id="tab-micro" class="tab-panel">
+          <div class="analysis-block">
+            <h4>Microservices / Microfrontends</h4>
+            <p>Microservices resolve coupling by splitting code into physically distinct repositories, build pipelines, and server runtimes. While this guarantees modular isolation, it introduces immense operational complexity: custom Webpack module federation configs, distinct deployment pipelines, network latency, CORS hassles, and difficult local debugging setup. For small to medium-sized apps, microfrontends represent excessive infrastructure overkill.</p>
+          </div>
+          <div class="analysis-block" style="border-left: 1px solid rgba(51, 65, 85, 0.3); padding-left: 2rem;">
+            <h4>Folder-Level Monolith (Feature-Agent-Spec)</h4>
+            <p>Feature-Agent-Spec achieves micro-level decoupling **inside a simple monolithic repository**. It enforces isolation boundaries strictly via folder layouts and linting/static rules, rather than multi-repo physical boundaries. You maintain a single build pipeline, run the entire app locally in seconds, and execute test scripts immediately, obtaining the structural benefits of microfrontends with none of the network or hosting overhead.</p>
+            <ul class="bullet-list" style="margin-top: 1rem;">
+              <li>Zero build-time federated configuration required.</li>
+              <li>Local dev server spins up instantly with `npm run dev`.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab 3: Monolith -->
+        <div id="tab-mono" class="tab-panel">
+          <div class="analysis-block">
+            <h4>Spaghetti Monoliths</h4>
+            <p>Traditional monolithic codebases allow direct, ad-hoc imports across any file boundaries. Over time, code paths resemble spaghetti. Feature A directly imports from Feature B, the core launcher directly links to styles inside individual widgets, and routes are hardcoded inside central configuration arrays. Deleting a directory in a spaghetti monolith causes a domino effect of compilation crashes, broken links, and hidden asset calls.</p>
+          </div>
+          <div class="analysis-block" style="border-left: 1px solid rgba(51, 65, 85, 0.3); padding-left: 2rem;">
+            <h4>Enforced Sandbox Monolith</h4>
+            <p>Feature-Agent-Spec mandates strict unidirectional flow: Core never imports from Features, and Features never cross-talk. Features register themselves dynamically at runtime. If a folder (like `features/privacy/`) is completely deleted, the core and other features still compile, run, and pass CI tests immediately because **no static imports or dead asset calls were left behind** in the core templates.</p>
+            <ul class="bullet-list" style="margin-top: 1rem;">
+              <li>Guarantees 100% touchless feature removals.</li>
+              <li>Limits git branch conflicts to configuration files.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trade-offs: Pros and Cons -->
+  <section id="tradeoffs">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <span class="badge badge-rose">Trade-offs</span>
+        <h2>Pros and Cons Matrix</h2>
+        <p style="max-width: 600px; margin: 0.5rem auto 0;">Every architectural choice is a trade-off. Here is the realistic pros and cons assessment of the Feature-Agent-Spec.</p>
+      </div>
+
+      <div class="pros-cons-grid">
+        <div class="pros-list">
+          <h3>Advantages</h3>
+          <ul>
+            <li><strong>Zero Global Regressions</strong>: Edits inside a feature sandbox cannot break features in other folders, ensuring high system stability.</li>
+            <li><strong>Smaller AI Context Footprint</strong>: AI only needs to read the specific feature folder, keeping context tokens low and logical coherence high.</li>
+            <li><strong>Zero-Touch Removability</strong>: Deleting a feature folder and toggling its flag to false instantly deletes it with no compilation warnings.</li>
+            <li><strong>Decoupled Team Playbook</strong>: Human developers and multiple AI agents can work on separate features concurrently with close to zero merge conflicts.</li>
+            <li><strong>Parallel CI Matrix Testing</strong>: CI pipelines can dynamically test core-only, solo-feature, or random combinations in seconds.</li>
+          </ul>
+        </div>
+        <div class="cons-list">
+          <h3>Disadvantages</h3>
+          <ul>
+            <li><strong>Code Redundancy</strong>: Denying cross-feature reuse can lead to duplicate small helper functions (like date parsers or calculations) across folders.</li>
+            <li><strong>Strict Boilerplate Discipline</strong>: Developers must commit to registering callbacks and hooks rather than making quick, direct function calls.</li>
+            <li><strong>Setup Static Rule Enforcement</strong>: Requires configuring tools (like `verify_remnants.js` or ESLint dependency rules) to guard boundaries against accidental imports.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dynamic Loader Code Example -->
+  <section id="code">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <span class="badge badge-cyan">Dynamic Loader Code</span>
+        <h2>Dynamic Runtime Asset Injection Example</h2>
+        <p style="max-width: 600px; margin: 0.5rem auto 0;">Below is the actual client-side dynamic injector code used to boot isolated assets asynchronously in compliance with the spec.</p>
+      </div>
+      
+      <div class="card" style="max-width: 800px; margin: 0 auto;">
+        <h4 style="font-size: 1.1rem; color: var(--accent-cyan);">Bootstrap & Asset Loader (`index.html`)</h4>
+        <pre><code>function loadFeatureAssets() {
+  const config = window.AppConfig;
+  const featurePaths = {
+    playthrough: 'features/playthrough',
+    elevation: 'features/elevation',
+    slideshow: 'features/slideshow',
+    gallery: 'features/gallery',
+    privacy: 'features/privacy'
+  };
+
+  const promises = [];
+
+  Object.keys(config.features).forEach(featureId => {
+    if (config.features[featureId] === true) {
+      const path = featurePaths[featureId];
+      if (!path) return;
+
+      // 1. Inject feature CSS
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = `${path}/styles.css`;
+      document.head.appendChild(link);
+
+      // 2. Inject feature JS and track loading
+      const promise = new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = `${path}/feature.js`;
+        script.onload = () => resolve();
+        script.onerror = () => {
+          console.warn(`[Loader] Failed to load feature script: ${featureId}`);
+          resolve(); // Resolve anyway so other features can boot
+        };
+        document.body.appendChild(script);
+      });
+      promises.push(promise);
+    }
+  });
+
+  return Promise.all(promises);
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA and Sandbox App reference -->
+  <section style="background: linear-gradient(180deg, var(--bg-main) 0%, #060913 100%); text-align: center;">
+    <div class="container">
+      <span class="badge badge-emerald">Live Showcase</span>
+      <h2 style="margin-bottom: 1.5rem;">See Feature-Agent-Spec in Action</h2>
+      <p style="max-width: 650px; margin: 0 auto 2.5rem;">Explore the GPX Photo Map Playthrough, a vanilla JavaScript mapping application built entirely in compliance with the zero-remnant, configuration-driven loader guidelines.</p>
+      <div class="hero-actions">
+        <a href="https://ljack.github.io/feature-agent-spec-gpx-photo-map-playthrough/" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Launch Live Sandbox App</a>
+        <a href="https://github.com/ljack/feature-agent-spec-gpx-photo-map-playthrough" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Explore Sandbox Codebase</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Feature-Agent-Spec. Released under the MIT License.</p>
+      <p style="margin-top: 0.5rem;">Maintained by <a href="https://github.com/ljack" target="_blank" rel="noopener noreferrer">ljack</a>. Built with Outfit & Inter typography.</p>
+    </div>
+  </footer>
+
+  <!-- Tab Logic JavaScript -->
+  <script>
+    function switchTab(event, tabId) {
+      // Deactivate all tabs
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      tabBtns.forEach(btn => btn.classList.remove('active'));
+      
+      const tabPanels = document.querySelectorAll('.tab-panel');
+      tabPanels.forEach(panel => panel.classList.remove('active'));
+      
+      // Activate selected tab
+      event.currentTarget.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+  </script>
+</body>
+</html>
